@@ -33,16 +33,14 @@ export function Navbar() {
       >
         Skip to content
       </a>
-      <div className={`container-page flex h-[var(--nav-height)] items-center justify-between gap-6 ${home ? "flex-row-reverse md:flex-row" : ""}`}>
+      <div className={`container-page flex h-[var(--nav-height)] items-center justify-between gap-6 ${home ? "flex-row-reverse" : ""}`}>
         <MobileMenu transparent={transparent} />
         <Link
           href="/"
           aria-label={`${siteConfig.name}, home`}
           className="shrink-0 rounded-lg bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
         >
-          {/* The mobile hero already contains the full brand lockup at top left.
-              Keep its home-link target, without drawing a second logo over it. */}
-          <LogoFull className={`h-14 w-auto sm:h-16 ${transparent ? "invisible md:visible md:[&_.logo-word]:fill-white md:[&_.logo-tagline]:fill-white md:[&_.logo-rules]:fill-white" : ""}`} />
+          <LogoFull className="h-14 w-auto sm:h-16" />
         </Link>
       </div>
     </header>

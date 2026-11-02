@@ -1235,3 +1235,25 @@ html[data-bg="living"] .bg-fx {
 .demo-card-shade { background: linear-gradient(to bottom, rgba(3,12,23,0) 25%, rgba(3,12,23,0.12) 45%, rgba(3,12,23,0.83) 78%, rgba(3,12,23,0.96) 100%); }
 @media (min-width: 640px) { .website-demo-slider { grid-auto-columns: 46%; gap: 1.25rem; } }
 @media (min-width: 1024px) { .website-demo-slider { grid-auto-columns: 31%; } }
+
+/* Sunrise's approved light-blue technology direction; the original logo stays intact. */
+.sunrise-tech-hero { min-height: 42rem; }
+.sunrise-tech-hero-image { object-position: center 48%; }
+.sunrise-tech-hero-copy { max-width: 64%; padding-block: calc(var(--nav-height) + 4.5rem) 5.5rem; }
+.sunrise-tech-hero-title { font-size: clamp(2.7rem, 4.9vw, 5rem); line-height: 1.08; letter-spacing: -0.045em; }
+.sunrise-tech-hero-title span { color: #0e4aab; }
+.sunrise-tech-hero-wash { background: linear-gradient(90deg, rgba(238,247,255,.92) 0%, rgba(238,247,255,.64) 32%, rgba(238,247,255,0) 66%); }
+.sunrise-tech-hero-cta { background: linear-gradient(110deg,#ff9819,#ff6908); box-shadow: 0 9px 25px rgba(235,111,10,.18); }
+.home-tech-services { background: radial-gradient(ellipse at 8% 30%,rgba(133,192,255,.19),transparent 52%),radial-gradient(ellipse at 90% 85%,rgba(149,140,246,.14),transparent 48%),#eaf2ff; }
+.home-tech-service-card { background: linear-gradient(150deg,#ffffff,#edf5ff); box-shadow: 0 9px 24px rgba(34,105,190,.10); }
+.home-tech-service-card:hover { border-color: #82b2fb; }
+.home-tech-demos { background: radial-gradient(ellipse at 100% 0%,rgba(151,142,245,.13),transparent 45%),linear-gradient(180deg,#edf6ff,#e2f0ff); }
+.home-tech-demos .website-demo-card { box-shadow: 0 10px 25px rgba(18,62,122,.13); }
+@media (max-width:767px) {
+  .sunrise-tech-hero { min-height: 47rem; }
+  .sunrise-tech-hero-image { object-position: 72% center; }
+  .sunrise-tech-hero-copy { max-width: 100%; padding-block: calc(var(--nav-height) + 2.25rem) 18rem; }
+  .sunrise-tech-hero-title { font-size: clamp(2.5rem,9.6vw,4rem); max-width: 42rem; }
+  .sunrise-tech-hero-copy > p { max-width: 26rem; }
+  .sunrise-tech-hero-wash { background: linear-gradient(180deg,rgba(235,245,255,.97),rgba(235,245,255,.85) 43%,rgba(235,245,255,.15) 74%,transparent); }
+}

@@ -100,9 +100,9 @@ export const liveDemos: LiveDemo[] = [
     description:
       "Explore a fitness website demo and imagine a digital home for your training community.",
     url: "https://sunrise-gold-gym-preview.vercel.app/",
-    image: "/templates/supplied/gym.jpg",
+    image: "/templates/projects/sunrise-gym-interior.png",
     imageAlt:
-      "Illustrative gym training poster; not a screenshot of the Sunrise Gold Gym website.",
+      "AI-created illustrative gym interior, not a photograph of the actual Sunrise Gold Gym facility.",
   },
   {
     id: "sunrise-realtors",

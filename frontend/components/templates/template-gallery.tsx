@@ -40,7 +40,7 @@ export function TemplateGallery({ standalone = false }: { standalone?: boolean }
   }
 
   return (
-    <section id="templates" aria-labelledby="templates-title" className="bg-[#fffdf9] py-12 sm:py-16">
+    <section id="templates" aria-labelledby="templates-title" className="home-tech-demos py-12 sm:py-16">
       <div className="container-page">
         <div className="flex items-end justify-between gap-5">
           <div>

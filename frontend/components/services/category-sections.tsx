@@ -50,7 +50,7 @@ export function CategorySections() {
   }
 
   return (
-    <section id="services" aria-labelledby="main-services-title" className="bg-white py-12 sm:py-16">
+    <section id="services" aria-labelledby="main-services-title" className="home-tech-services py-12 sm:py-16">
       <div className="container-page">
         <div className="flex items-end justify-between gap-5">
           <div>
@@ -73,7 +73,7 @@ export function CategorySections() {
         </div>
         <div ref={track} id="service-category-slider" role="region" aria-label="Service categories — swipe or use the arrow buttons" tabIndex={0} className="service-category-slider mt-7">
           {serviceCategories.map((category, index) => (
-            <article key={category.id} id={category.id} data-service-card role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${serviceCategories.length}: ${category.name}`} className="service-category-card group flex flex-col overflow-hidden rounded-2xl border border-line bg-white">
+            <article key={category.id} id={category.id} data-service-card role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${serviceCategories.length}: ${category.name}`} className="service-category-card home-tech-service-card group flex flex-col overflow-hidden rounded-2xl border border-[#bdd4ff]">
               <Link href={`/services/${category.id}`} tabIndex={-1} aria-hidden="true" className="relative block aspect-[4/3] shrink-0 overflow-hidden" style={{ backgroundColor: category.imageBackground }}>
                 <Image src={category.image} alt="" fill sizes="(min-width:1024px) 33vw,(min-width:640px) 48vw,85vw" className="object-contain transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none" />
               </Link>

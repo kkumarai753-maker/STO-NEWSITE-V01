@@ -58,7 +58,7 @@ export function MobileMenu({ transparent = false }: { transparent?: boolean }) {
         <button
           type="button"
           aria-label="Open menu"
-          className={`grid size-12 place-items-center rounded-full border transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${transparent ? "border-transparent bg-transparent text-white hover:bg-white/15 md:text-[#071a35]" : "border-line-strong bg-white text-text hover:bg-primary-light"}`}
+          className={`grid size-12 place-items-center rounded-full border transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${transparent ? "border-transparent bg-transparent text-[#071a35] hover:bg-white/20" : "border-line-strong bg-white text-text hover:bg-primary-light"}`}
         >
           <Menu className="size-6" strokeWidth={1.75} aria-hidden />
         </button>
