@@ -1,122 +1,97 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ArrowUpRight,
-  Bot,
-  Check,
-  Layers3,
-  Megaphone,
-  Monitor,
-  ArrowRight,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { serviceCategories } from "@/data/service-categories";
-const icons = {
-  megaphone: Megaphone,
-  monitor: Monitor,
-  bot: Bot,
-  layers: Layers3,
+
+const descriptions: Record<string, string> = {
+  "website-development": "Professional websites and online stores that turn your business into a clear, compelling digital experience.",
+  "software-development": "Custom applications and business systems that bring your team, data and day-to-day operations together.",
+  "ai-automation": "AI agents and connected workflows that simplify repetitive tasks and help your team focus on meaningful work.",
+  "social-media-marketing-branding": "Brand identity, content and digital campaigns that help the right audience discover and connect with your business.",
 };
 
 export function CategorySections() {
+  const track = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ start: true, end: false, active: 0 });
+
+  useEffect(() => {
+    const element = track.current;
+    if (!element) return;
+    const update = () => {
+      const cards = Array.from(element.querySelectorAll<HTMLElement>("[data-service-card]"));
+      const origin = cards[0]?.offsetLeft ?? 0;
+      const step = cards[1] ? cards[1].offsetLeft - origin : element.clientWidth;
+      setPosition({
+        start: element.scrollLeft <= 4,
+        end: element.scrollLeft + element.clientWidth >= element.scrollWidth - 4,
+        active: Math.min(cards.length - 1, Math.max(0, Math.round(element.scrollLeft / step))),
+      });
+    };
+    update();
+    element.addEventListener("scroll", update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(element);
+    return () => {
+      element.removeEventListener("scroll", update);
+      observer.disconnect();
+    };
+  }, []);
+
+  function move(direction: number) {
+    const element = track.current;
+    if (!element) return;
+    const cards = element.querySelectorAll<HTMLElement>("[data-service-card]");
+    const step = cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : element.clientWidth;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    element.scrollBy({ left: step * direction, behavior: reduced ? "instant" : "smooth" });
+  }
+
   return (
-    <section
-      id="services"
-      aria-labelledby="main-services-title"
-      className="section-y bg-white"
-    >
+    <section id="services" aria-labelledby="main-services-title" className="bg-white py-12 sm:py-16">
       <div className="container-page">
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div className="flex items-end justify-between gap-5">
           <div>
             <p className="preview-kicker">Four ways to move forward</p>
-            <h2
-              id="main-services-title"
-              className="mt-4 text-heading-1 text-text"
-            >
-              Your goals.
-              <br />
-              <em>Our expertise.</em>
+            <h2 id="main-services-title" className="mt-3 text-heading-2 text-text">
+              Your goals. <em>Our expertise.</em>
             </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-text-muted">
+              Build your online presence, streamline operations and reach more customers.
+            </p>
           </div>
-          <p className="max-w-md text-lead text-text-muted">
-            Choose where you need support. We’ll shape the right scope,
-            deliverables and quotation together.
-          </p>
+          <div className="flex shrink-0 gap-2 pb-1">
+            <button type="button" onClick={() => move(-1)} disabled={position.start} aria-label="Previous service categories" aria-controls="service-category-slider" className="grid size-11 place-items-center rounded-full border border-line-strong bg-white text-text transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+              <ArrowLeft className="size-4" aria-hidden />
+            </button>
+            <button type="button" onClick={() => move(1)} disabled={position.end} aria-label="Next service categories" aria-controls="service-category-slider" className="grid size-11 place-items-center rounded-full border border-line-strong bg-white text-text transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-35 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+              <ArrowRight className="size-4" aria-hidden />
+            </button>
+          </div>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {serviceCategories.map((category) => {
-            const Icon = icons[category.icon];
-            return (
-              <article
-                key={category.id}
-                id={category.id}
-                className="service-showcase group relative overflow-hidden rounded-3xl border border-line bg-[#f7faff] p-6 sm:p-8"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-text-subtle">
-                    {category.number} / EXPERTISE
-                  </span>
-                  <span
-                    className={`grid size-12 place-items-center rounded-2xl ${category.color === "orange" ? "bg-[#fff0dd] text-[#a75011]" : "bg-primary-light text-primary"}`}
-                  >
-                    <Icon className="size-6" aria-hidden />
-                  </span>
-                </div>
-                <h3 className="mt-7 text-2xl font-semibold tracking-tight text-text sm:text-3xl">
-                  {category.name}
-                </h3>
-                <p className="mt-2 text-sm font-medium text-primary">
-                  {category.short}
-                </p>
-                <p className="mt-5 max-w-lg text-sm leading-relaxed text-text-muted">
-                  {category.description}
-                </p>
-                <Link
-                  href={`/services/${category.id}`}
-                  aria-label={`Explore ${category.name}`}
-                  className="relative mt-7 block aspect-[4/5] overflow-hidden rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                  style={{ backgroundColor: category.imageBackground }}
-                >
-                  <Image
-                    src={category.image}
-                    alt={category.imageAlt}
-                    fill
-                    sizes="(min-width:1280px) 560px,(min-width:768px) 45vw,90vw"
-                    className="object-contain"
-                  />
+        <div ref={track} id="service-category-slider" role="region" aria-label="Service categories — swipe or use the arrow buttons" tabIndex={0} className="service-category-slider mt-7">
+          {serviceCategories.map((category, index) => (
+            <article key={category.id} id={category.id} data-service-card role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${serviceCategories.length}: ${category.name}`} className="service-category-card group flex flex-col overflow-hidden rounded-2xl border border-line bg-white">
+              <Link href={`/services/${category.id}`} tabIndex={-1} aria-hidden="true" className="relative block aspect-[4/3] shrink-0 overflow-hidden" style={{ backgroundColor: category.imageBackground }}>
+                <Image src={category.image} alt="" fill sizes="(min-width:1024px) 33vw,(min-width:640px) 48vw,85vw" className="object-contain transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none" />
+              </Link>
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <h3 className="text-xl font-semibold leading-snug tracking-tight text-text">{category.name}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-text-muted">{descriptions[category.id]}</p>
+                <Link href={`/services/${category.id}`} aria-label={`Explore all ${category.name} services`} className="mt-5 inline-flex min-h-11 items-center justify-between gap-3 rounded-xl border border-primary/30 px-4 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+                  Explore <ArrowUpRight className="size-4" aria-hidden />
                 </Link>
-                <ul className="mt-6 grid gap-2.5 text-sm text-text-muted sm:grid-cols-2">
-                  {category.items.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <Check
-                        className="mt-0.5 size-4 shrink-0 text-primary"
-                        aria-hidden
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-                  <Link
-                    href={`/services/${category.id}`}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary"
-                  >
-                    Explore options
-                    <ArrowRight className="size-4" aria-hidden />
-                    <span className="sr-only"> for {category.name}</span>
-                  </Link>
-                  <Link
-                    href={`/build-your-proposal?category=${category.id}`}
-                    className="inline-flex min-h-11 items-center gap-1 text-sm text-text-muted"
-                  >
-                    Request a quote
-                    <ArrowUpRight className="size-4" aria-hidden />
-                    <span className="sr-only"> for {category.name}</span>
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </div>
+        <div className="mt-5 flex items-center justify-between gap-4">
+          <p className="text-xs text-text-subtle">Swipe to explore all four categories</p>
+          <Link href="/services" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary">All services <ArrowRight className="size-4" aria-hidden /></Link>
+        </div>
+        <p className="sr-only" aria-live="polite">Service category {position.active + 1} of {serviceCategories.length}</p>
       </div>
     </section>
   );

@@ -14,9 +14,9 @@ export default function HomePage() {
     <>
       <PageSchema path="/" />
       <Hero />
-      <CallbackSection />
-      <TemplateGallery />
       <CategorySections />
+      <TemplateGallery />
+      <CallbackSection />
       <PartnershipSection />
       <FaqSection />
       <ContactSection />

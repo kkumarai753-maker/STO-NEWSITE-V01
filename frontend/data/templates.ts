@@ -37,9 +37,8 @@ export const templates = [
   },
 ] as const;
 
-/** Owner-supplied demo destinations. External content has not been independently
- * verified because the review environment's proxy blocks these hosts. Uploaded
- * visuals are illustrative graphics, not screenshots or recordings of the URLs. */
+/** Public demo destinations checked 2 November 2026. Card visuals are representative
+ * artwork or project images; they are not screenshots or video recordings. */
 export type LiveDemo = {
   id: string;
   name: string;
@@ -104,5 +103,50 @@ export const liveDemos: LiveDemo[] = [
     image: "/templates/supplied/gym.jpg",
     imageAlt:
       "Illustrative gym training poster; not a screenshot of the Sunrise Gold Gym website.",
+  },
+  {
+    id: "sunrise-realtors",
+    name: "Sunrise Realtors",
+    category: "Real Estate",
+    description: "Property discovery, locality browsing and enquiries for a real estate business.",
+    url: "https://suntech-realeastate.vercel.app/",
+    image: "/templates/projects/sunrise-realtors.jpg",
+    imageAlt: "Nagpur residential property photograph used as a representative real estate visual.",
+  },
+  {
+    id: "shubh-fashion",
+    name: "Shubh Fashion Studio",
+    category: "Fashion & Retail",
+    description: "A menswear storefront with product discovery, saved pieces and shopping-bag enquiries.",
+    url: "https://shubh-fashion-studio.vercel.app/",
+    image: "/templates/projects/shubh-fashion.png",
+    imageAlt: "AI-created blue menswear campaign artwork from Shubh Fashion Studio; not a website screenshot.",
+  },
+  {
+    id: "mate-electricals",
+    name: "Mate Electricals",
+    category: "Electrical & Electronics",
+    description: "An electrical business website that brings products and customer enquiries together.",
+    url: "https://mate-electricals.vercel.app/",
+    image: "/templates/projects/mate-electricals.png",
+    imageAlt: "Representative electrical products artwork from Mate Electricals; not a website screenshot.",
+  },
+  {
+    id: "rajendra-portfolio",
+    name: "Rajendra MK Portfolio",
+    category: "Personal Portfolio",
+    description: "A personal portfolio presenting professional experience and selected projects.",
+    url: "https://v0-rajendramk.vercel.app/",
+    image: "/templates/projects/rajendra-portfolio.jpg",
+    imageAlt: "Rajendra MK portrait from the public portfolio website.",
+  },
+  {
+    id: "echo-ai-voice",
+    name: "Echo AI Voice Assistant",
+    category: "AI Demos",
+    description: "Explore an AI voice-assistant interface and discuss conversational experiences for your business.",
+    url: "https://ai-app-studio-seven.vercel.app/",
+    image: "/templates/projects/ai-voice.jpg",
+    imageAlt: "Illustrative AI assistant artwork; not a screenshot of the Echo app.",
   },
 ];

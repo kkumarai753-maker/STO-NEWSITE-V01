@@ -24,7 +24,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="bg-[#eef5ff] pt-[var(--nav-height)]"
+      className="bg-[#eef5ff]"
     >
       <h1 id="hero-title" className="sr-only">
         From Idea to Successful Business — Sunrise Tech Origin

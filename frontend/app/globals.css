@@ -1189,3 +1189,49 @@ html[data-bg="living"] .bg-fx {
 .service-showcase { transition: border-color 180ms, box-shadow 180ms; }
 .service-showcase:hover { border-color: rgb(21 101 240 / .3); box-shadow: 0 16px 40px -24px rgb(20 55 100 / .3); }
 @media(prefers-reduced-motion: reduce) { .service-showcase { transition: none; } }
+
+/* Compact homepage service discovery: one row, touch swipe and arrow controls. */
+.service-category-slider {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 86%;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0;
+  scrollbar-width: none;
+  padding: 0.25rem 0.125rem 0.75rem;
+}
+.service-category-slider::-webkit-scrollbar { display: none; }
+.service-category-slider:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 4px;
+}
+.service-category-card { scroll-snap-align: start; }
+@media (min-width: 640px) {
+  .service-category-slider { grid-auto-columns: calc((100% - 1.25rem) / 2); gap: 1.25rem; }
+}
+@media (min-width: 1024px) {
+  .service-category-slider { grid-auto-columns: calc((100% - 2.5rem) / 3); }
+}
+
+/* Image-led demo gallery, based on the selected tall-card reference. */
+.demo-category-filters { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.25rem 0.125rem 0.5rem; scrollbar-width: none; }
+.demo-category-filters::-webkit-scrollbar, .website-demo-slider::-webkit-scrollbar { display: none; }
+.website-demo-slider {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 86%;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 0.25rem 0.125rem 0.75rem;
+}
+.website-demo-slider:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 4px; }
+.website-demo-card { aspect-ratio: 3 / 5; scroll-snap-align: start; }
+.demo-card-shade { background: linear-gradient(to bottom, rgba(3,12,23,0) 25%, rgba(3,12,23,0.12) 45%, rgba(3,12,23,0.83) 78%, rgba(3,12,23,0.96) 100%); }
+@media (min-width: 640px) { .website-demo-slider { grid-auto-columns: 46%; gap: 1.25rem; } }
+@media (min-width: 1024px) { .website-demo-slider { grid-auto-columns: 31%; } }
