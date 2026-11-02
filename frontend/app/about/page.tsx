@@ -104,7 +104,7 @@ export default function AboutPage() {
             {[
               ["Based in", siteConfig.contact.location.split(",").slice(-3).join(",").trim()],
               ["Serves", `Businesses across ${siteConfig.areaServed}`],
-              ["Divisions", "Web & Technology · Digital Growth"],
+              ["Service categories", "Website Development · Software Development · AI Automation & AI Agents · Social Media Marketing & Branding"],
               ["Ownership", "Your domain, hosting and accounts stay yours"],
               ["Hours", siteConfig.contact.hours],
             ].map(([k, v]) => (

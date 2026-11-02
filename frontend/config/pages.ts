@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { servicePages } from "@/data/service-pages";
+import { serviceCategories } from "@/data/service-categories";
 import { templates } from "@/data/templates";
 import { articles } from "@/data/blog";
 
@@ -40,7 +40,7 @@ const corePages: PageEntry[] = [
     label: "Home",
     updated: "2026-10-18",
     summary:
-      "Overview of the company, both service divisions, process and FAQs.",
+      "Overview of the company, four service categories, process and FAQs.",
     group: "main",
     priority: 1,
     changeFrequency: "weekly",
@@ -59,6 +59,7 @@ const corePages: PageEntry[] = [
   },
   {
     path: "/web-technology",
+    index: false,
     title: "Web Development & Technology Solutions",
     description:
       "Websites, web apps, domain and hosting, maintenance, CRM and AI workflow automation from Sunrise Tech Origin's Web & Technology division in Nagpur.",
@@ -73,6 +74,7 @@ const corePages: PageEntry[] = [
   },
   {
     path: "/digital-growth",
+    index: false,
     title: "Digital Marketing, SEO & Branding",
     description:
       "Branding, social media, reel editing, Meta and Google Ads, local SEO and lead funnels for small businesses.",
@@ -226,6 +228,16 @@ const corePages: PageEntry[] = [
 ];
 
 export const pages: PageEntry[] = [
+  {
+    path: "/build-your-proposal",
+    title: "Build Your Proposal",
+    description: "Select services and share your project requirements.",
+    label: "Build Your Proposal",
+    updated: "2026-11-02",
+    summary: "Select services across our four categories.",
+    group: "contact",
+    index: false,
+  },
   ...corePages,
   {
     path: "/templates",
@@ -279,15 +291,15 @@ export const pages: PageEntry[] = [
       changeFrequency: "monthly",
     }),
   ),
-  ...servicePages.map(
+  ...serviceCategories.map(
     (s): PageEntry => ({
-      path: `/services/${s.slug}`,
-      title: s.metaTitle,
-      description: s.metaDescription,
+      path: `/services/${s.id}`,
+      title: s.name,
+      description: s.description,
       label: s.name,
-      parent: s.division === "web" ? "/web-technology" : "/digital-growth",
-      updated: s.updated,
-      summary: s.summary,
+      parent: "/services",
+      updated: "2026-11-02",
+      summary: s.description,
       group: "services",
       priority: 0.8,
       changeFrequency: "monthly",

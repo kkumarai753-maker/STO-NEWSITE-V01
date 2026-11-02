@@ -8,7 +8,16 @@ import { ArrowUpRight, Mail, Menu, Phone, X } from "lucide-react";
 import { LogoFull } from "@/components/brand/logo";
 import { emailHref, phoneHref, siteConfig } from "@/config/site";
 
+import { serviceCategories } from "@/data/service-categories";
+
 const groups = [
+  {
+    label: "Services",
+    items: [
+      ...serviceCategories.map((c) => [c.name, `/services/${c.id}`]),
+      ["Build Your Proposal", "/build-your-proposal"],
+    ],
+  },
   {
     label: "Explore Sunrise",
     items: [

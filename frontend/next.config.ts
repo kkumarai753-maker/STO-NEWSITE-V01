@@ -26,12 +26,20 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
-  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
 ];
 
 /** Mirrors `isIndexable` in config/site.ts: only production deployments may be indexed. */
-const isIndexable = (process.env.VERCEL_ENV ?? process.env.SITE_ENV ?? "production") === "production";
+const isIndexable =
+  (process.env.VERCEL_ENV ?? process.env.SITE_ENV ?? "production") ===
+  "production";
 const noindex = { key: "X-Robots-Tag", value: "noindex, nofollow" };
 
 /**
@@ -58,13 +66,68 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      { source: "/:path*", headers: isIndexable ? securityHeaders : [...securityHeaders, noindex] },
+      {
+        source: "/:path*",
+        headers: isIndexable ? securityHeaders : [...securityHeaders, noindex],
+      },
       { source: "/admin/:path*", headers: [noindex] },
     ];
   },
   async redirects() {
     // The old cart page was folded into the services catalog.
-    return [{ source: "/cart", destination: "/services", permanent: true }];
+    return [
+      {
+        source: "/services/custom-software-development",
+        destination: "/services/software-development",
+        permanent: true,
+      },
+      {
+        source: "/services/erp-crm-hrms",
+        destination: "/services/software-development",
+        permanent: true,
+      },
+      {
+        source: "/services/saas-development",
+        destination: "/services/software-development",
+        permanent: true,
+      },
+      {
+        source: "/services/seo",
+        destination: "/services/social-media-marketing-branding",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-development",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-integration",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-workflow-automation",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-agents",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      {
+        source: "/services/ai-chatbots",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      {
+        source: "/services/whatsapp-automation",
+        destination: "/services/ai-automation",
+        permanent: true,
+      },
+      { source: "/cart", destination: "/services", permanent: true },
+    ];
   },
 };
 

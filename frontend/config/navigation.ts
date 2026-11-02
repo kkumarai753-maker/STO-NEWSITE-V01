@@ -1,3 +1,4 @@
+import { serviceCategories } from "@/data/service-categories";
 export type NavItem = {
   label: string;
   href: string;
@@ -25,8 +26,10 @@ export const mainNav: NavItem[] = [
 export const mobileNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Web & Technology", href: "/web-technology" },
-  { label: "Digital Marketing & Growth", href: "/digital-growth" },
+  ...serviceCategories.map((c) => ({
+    label: c.name,
+    href: `/services/${c.id}`,
+  })),
   { label: "About Us", href: "/about" },
   { label: "Blog & Insights", href: "/blog" },
   { label: "Why Us", href: "/why-us" },
@@ -44,14 +47,14 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "Solutions",
     items: [
-      { label: "Social Media Management", href: "/services#social-media" },
-      { label: "Website Development", href: "/services#website-development" },
-      { label: "AI Automation & Agents", href: "/services#ai-automation" },
-      { label: "Software Solutions", href: "/services#software" },
+      ...serviceCategories.map((c) => ({
+        label: c.name,
+        href: `/services/${c.id}`,
+      })),
+      { label: "Build Your Proposal", href: "/build-your-proposal" },
       { label: "All Services", href: "/services" },
       { label: "Website Templates", href: "/templates" },
       { label: "Free Consultation", href: "/inquiry" },
-      { label: "Customer Registration", href: "/register" },
     ],
   },
   {

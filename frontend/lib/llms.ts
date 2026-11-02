@@ -2,8 +2,7 @@ import { pages, type PageEntry } from "@/config/pages";
 import { absoluteUrl, siteConfig } from "@/config/site";
 import { faqs, faqTopics } from "@/data/faq";
 import { projectSteps } from "@/data/process";
-import { servicePages } from "@/data/service-pages";
-import { SERVICES } from "@/data/services-catalog";
+import { serviceCategories } from "@/data/service-categories";
 
 /**
  * llms.txt (https://llmstxt.org): a Markdown index of the site for AI
@@ -11,10 +10,15 @@ import { SERVICES } from "@/data/services-catalog";
  * generated from the same config and data as the pages, so they never drift.
  */
 
-const url = (path: string) => (path === "/" ? siteConfig.url : absoluteUrl(path));
+const url = (path: string) =>
+  path === "/" ? siteConfig.url : absoluteUrl(path);
 const link = (p: PageEntry) => `- [${p.label}](${url(p.path)}): ${p.summary}`;
 const indexed = pages.filter((p) => p.index !== false);
-const group = (g: PageEntry["group"]) => indexed.filter((p) => p.group === g).map(link).join("\n");
+const group = (g: PageEntry["group"]) =>
+  indexed
+    .filter((p) => p.group === g)
+    .map(link)
+    .join("\n");
 
 const facts = () =>
   [
@@ -53,36 +57,10 @@ ${group("legal")}
 }
 
 export function llmsFullTxt() {
-  const services = servicePages
-    .map((s) => {
-      return `## ${s.name}
-
-URL: ${url(`/services/${s.slug}`)}
-Last updated: ${s.updated}
-
-${s.answer}
-
-### ${s.explainer.heading}
-
-${s.explainer.body.join("\n\n")}
-
-### ${s.offerings.heading}
-
-${s.offerings.items.map((i) => `- ${i.title}: ${i.desc}`).join("\n")}
-
-### ${s.considerations.heading}
-
-${s.considerations.items.map((i) => `- ${i.title}: ${i.desc}`).join("\n")}`;
-    })
-    .join("\n\n");
-
-  const catalog = (["web", "growth"] as const)
+  const services = serviceCategories
     .map(
-      (g) =>
-        `### ${g === "web" ? "Web & Technology" : "Digital Marketing & Growth"}\n\n` +
-        SERVICES.filter((s) => s.group === g)
-          .map((s) => `- ${s.name}: ${s.desc}`)
-          .join("\n"),
+      (c) =>
+        `## ${c.name}\nURL: ${url(`/services/${c.id}`)}\n${c.description}\n${c.items.map((name, i) => `${i + 1}. ${name}`).join("\n")}`,
     )
     .join("\n\n");
 
@@ -105,13 +83,11 @@ ${facts()}
 
 ## Services
 
-${catalog}
+${services}
 
 ## How a project works
 
 ${projectSteps.map((s) => `${s.num}. ${s.title} (${s.timeline}): ${s.desc} Deliverable: ${s.deliverable}.`).join("\n")}
-
-${services}
 
 ## Frequently asked questions
 

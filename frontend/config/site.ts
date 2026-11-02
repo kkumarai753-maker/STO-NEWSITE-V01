@@ -27,7 +27,7 @@ export const siteConfig = {
    * every source describes the business the same way.
    */
   description:
-    "Sunrise Tech Origin helps startups and growing businesses with social media management, website development, AI automation and agents, and SaaS, ERP, HRMS and CRM software.",
+    "Sunrise Tech Origin provides Website Development, Software Development, AI Automation & AI Agents, and Social Media Marketing & Branding for startups and growing businesses.",
   /** The same description cut to search-snippet length (≤160 characters). */
   metaDescription:
     "Nagpur-based Sunrise Tech Origin builds websites, apps, AI integrations, AI workflow automation and business software, plus digital marketing and SEO.",

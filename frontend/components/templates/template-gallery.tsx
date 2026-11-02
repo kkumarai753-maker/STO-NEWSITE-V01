@@ -135,7 +135,7 @@ export function TemplateGallery({
               </a>
               <div className="border-t border-line px-5 py-2">
                 <Link
-                  href={`/inquiry?service=${encodeURIComponent(d.category + " website — " + d.name)}`}
+                  href={`/build-your-proposal?service=website-development-4`}
                   className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-text-muted"
                 >
                   I’d like a website like this

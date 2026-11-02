@@ -71,7 +71,7 @@ export function CategorySections() {
                   {category.description}
                 </p>
                 <Link
-                  href={`/services#${category.id}`}
+                  href={`/services/${category.id}`}
                   aria-label={`Explore ${category.name}`}
                   className="relative mt-7 block aspect-[4/5] overflow-hidden rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                   style={{ backgroundColor: category.imageBackground }}
@@ -97,7 +97,7 @@ export function CategorySections() {
                 </ul>
                 <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
                   <Link
-                    href={`/services#${category.id}`}
+                    href={`/services/${category.id}`}
                     className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-primary"
                   >
                     Explore options
@@ -105,7 +105,7 @@ export function CategorySections() {
                     <span className="sr-only"> for {category.name}</span>
                   </Link>
                   <Link
-                    href={`/inquiry?service=${encodeURIComponent(category.name)}`}
+                    href={`/build-your-proposal?category=${category.id}`}
                     className="inline-flex min-h-11 items-center gap-1 text-sm text-text-muted"
                   >
                     Request a quote

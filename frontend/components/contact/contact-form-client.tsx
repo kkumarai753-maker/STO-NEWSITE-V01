@@ -1,5 +1,7 @@
 "use client";
 
+import { serviceCategories } from "@/data/service-categories";
+
 /**
  * Contact form (Client Component): a night card in three short chapters ,
  * who you are, what you need (topic chips), and your message. Submits through
@@ -53,16 +55,8 @@ const EMPTY: Values = { name: "", email: "", phone: "", message: "" };
 const INITIAL_STATE: ContactFormState = { status: "idle" };
 const REQUIRED = ["name", "email", "message"] as const;
 
-/** Quick picks, matching the two divisions' services. */
-const TOPICS = [
-  "Website",
-  "Online store",
-  "Branding & logo",
-  "Social media & reels",
-  "Ads & SEO",
-  "CRM & automation",
-  "Something else",
-];
+/** Category names come from the shared service catalogue. */
+const TOPICS = serviceCategories.map((c) => c.name);
 
 /** What the server receives as `message`: the chosen topics, then the visitor's words. */
 function composeMessage(topics: string[], message: string) {

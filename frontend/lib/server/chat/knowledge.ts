@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 
 import { faqs } from "@/data/faq";
 import { industries } from "@/data/industries";
-import { productTabs } from "@/data/products";
+import { serviceCategories } from "@/data/service-categories";
 import { services } from "@/data/services";
 import { SERVICES } from "@/data/services-catalog";
 
@@ -13,9 +13,15 @@ import { SERVICES } from "@/data/services-catalog";
  * The prompt is deterministic (no timestamps) to keep it cacheable.
  */
 export function buildSystemPrompt() {
-  const serviceLines = services.map((s) => `- ${s.title}: ${s.description}`).join("\n");
-  const solutionLines = productTabs.map((p) => `- ${p.label}: ${p.description}`).join("\n");
-  const faqLines = faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n");
+  const serviceLines = services
+    .map((s) => `- ${s.title}: ${s.description}`)
+    .join("\n");
+  const solutionLines = serviceCategories
+    .map((c) => `- ${c.name}: ${c.items.join("; ")}`)
+    .join("\n");
+  const faqLines = faqs
+    .map((f) => `Q: ${f.question}\nA: ${f.answer}`)
+    .join("\n\n");
   const catalogLines = SERVICES.map((s) => `- ${s.name}: ${s.desc}`).join("\n");
 
   return `You are the website assistant for ${siteConfig.name}. ${siteConfig.description} It is based in ${siteConfig.contact.location}.
