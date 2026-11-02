@@ -1,0 +1,109 @@
+# Sunrise Tech Origin — full stack: PostgreSQL + FastAPI backend + Next.js frontend.
+#
+#   docker compose up --build   # http://localhost:3000
+#
+# Works with no setup. To customise, copy .env.example to .env (read
+# automatically from this folder). If API_KEY is not set, a random key is
+# generated once and shared with the backend and the website (api-key volume).
+# The database and API are published on 127.0.0.1 only; the website talks to
+# the API over the internal Docker network (http://backend:8000).
+name: sunrise
+
+services:
+  # One-shot: create the shared API key on first run (kept in the api-key volume).
+  api-key-init:
+    image: postgres:16-alpine # already needed for db, so nothing extra to download
+    entrypoint:
+      - sh
+      - -c
+      - |
+        set -e
+        f=/shared/api_key
+        if [ ! -s "$$f" ]; then
+          head -c 48 /dev/urandom | od -An -tx1 | tr -d ' \n' > "$$f"
+          echo "Generated a new shared API key."
+        fi
+        chmod 0444 "$$f"
+    volumes:
+      - api-key:/shared
+    restart: "no"
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sunrise}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sunrise}
+      POSTGRES_DB: ${POSTGRES_DB:-sunrise}
+    ports:
+      # 5433 on the host: a locally installed PostgreSQL often already uses 5432.
+      - "127.0.0.1:${DB_HOST_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Creates the sunrise_test database (backend tests) on the first start.
+      - ./backend/scripts/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    image: sunrise-backend
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: ${BACKEND_ENVIRONMENT:-production}
+      # The db service below, unless DATABASE_URL in .env points elsewhere (e.g. Supabase).
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://${POSTGRES_USER:-sunrise}:${POSTGRES_PASSWORD:-sunrise}@db:5432/${POSTGRES_DB:-sunrise}}
+      API_KEY: ${API_KEY:-}
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:3000"]}'
+      ADMIN_SESSION_HOURS: ${ADMIN_SESSION_HOURS:-12}
+      TIMEZONE: ${TIMEZONE:-Asia/Kolkata}
+    volumes:
+      - api-key:/run/sunrise:ro # used when API_KEY is empty
+    ports:
+      # API docs at http://localhost:8000/docs when BACKEND_ENVIRONMENT=development.
+      - "127.0.0.1:${BACKEND_HOST_PORT:-8000}:8000"
+    depends_on:
+      api-key-init:
+        condition: service_completed_successfully
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_WHATSAPP_NUMBER: ${NEXT_PUBLIC_WHATSAPP_NUMBER-918766803990}
+        NEXT_PUBLIC_PHONE_NUMBER: ${NEXT_PUBLIC_PHONE_NUMBER-+918766803990}
+        NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-kkumarai753@gmail.com}
+        NEXT_PUBLIC_DESIGN_LAB: ${NEXT_PUBLIC_DESIGN_LAB:-}
+    image: sunrise-frontend
+    restart: unless-stopped
+    environment:
+      # Server-only settings (read at runtime, never sent to the browser).
+      BACKEND_API_URL: http://backend:8000
+      BACKEND_API_KEY: ${API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-claude-opus-5-5}
+      AI_MAX_TOKENS: ${AI_MAX_TOKENS:-2048}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CONTACT_TO_EMAIL: ${CONTACT_TO_EMAIL:-}
+      CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL:-}
+      CONTACT_WEBHOOK_URL: ${CONTACT_WEBHOOK_URL:-}
+      NEXT_SERVER_ACTIONS_ENCRYPTION_KEY: ${NEXT_SERVER_ACTIONS_ENCRYPTION_KEY:-}
+    volumes:
+      - api-key:/run/sunrise:ro # used when API_KEY is empty
+    ports:
+      - "${FRONTEND_HOST_PORT:-3000}:3000"
+    depends_on:
+      api-key-init:
+        condition: service_completed_successfully
+      backend:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  api-key:

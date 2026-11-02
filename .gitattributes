@@ -1,0 +1,13 @@
+# Normalise line endings so Windows and macOS/Linux checkouts match
+* text=auto eol=lf
+
+# Binary assets — never touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

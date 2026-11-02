@@ -1,0 +1,22 @@
+# Only the app, migrations and entrypoint go into the image (see Dockerfile).
+.venv
+venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.mypy_cache
+.ruff_cache
+htmlcov
+.coverage
+
+# never bake local secrets into the image
+.env*
+!.env.example
+
+tests
+scripts
+run.bat
+README.md
+Dockerfile
+.dockerignore
+.gitignore

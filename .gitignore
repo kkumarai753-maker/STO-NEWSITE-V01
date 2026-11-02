@@ -1,0 +1,78 @@
+# Repository-wide ignores for frontend/ (Next.js) and backend/ (FastAPI).
+# Patterns are unanchored so they apply inside both folders.
+
+# env files — real secrets live here; only the templates are committed
+.env*
+!.env.example
+
+# ---- frontend (Node / Next.js) --------------------------------------------
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.next/
+out/
+frontend/build/
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+.turbo
+.vercel
+.netlify
+
+# testing
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# ---- backend (Python) -----------------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# ---- shared ---------------------------------------------------------------
+# keys & certificates (incl. `next dev --experimental-https`)
+*.pem
+*.key
+*.crt
+*.p12
+certificates/
+
+# caches & logs
+.cache
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# local AI-assistant settings (CLAUDE.md / AGENTS.md are committed)
+.claude/settings.local.json

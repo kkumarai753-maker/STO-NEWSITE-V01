@@ -1,0 +1,23 @@
+# Keep the build context small and never bake local secrets into the image.
+node_modules
+.next
+out
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# env files: runtime secrets come from docker-compose; NEXT_PUBLIC_* from build args
+.env*
+!.env.example
+
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.vercel
+*.log
+README.md
+AGENTS.md
+CLAUDE.md
+.vscode
+.idea

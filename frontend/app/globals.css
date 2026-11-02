@@ -1,0 +1,1180 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* `arrow:` styles the <ButtonArrow /> chip inside a button (components/ui/button.tsx). */
+@custom-variant arrow (& [data-slot="button-arrow"]);
+
+/* ==========================================================================
+   First Light, design tokens (see DESIGN.md)
+   Day is the default theme. `.theme-glow` re-declares the same semantic
+   tokens for a subtree, so every component that uses them (text-text,
+   bg-surface, border-line, Button, Eyebrow, field-control …) renders
+   correctly on both. Raw values live on :root so SVG, inline styles and
+   third-party components can use them too. Contrast ratios: DESIGN.md §3.
+   ========================================================================== */
+
+:root {
+  --font-jakarta: var(--font-brand);
+  --font-inter: var(--font-brand);
+  --font-geist-sans: var(--font-brand);
+  --font-sora: var(--font-brand);
+  --font-dm-sans: var(--font-brand);
+
+  /* ---- Brand palette (single source of truth; DESIGN.md §3) ----------- */
+  --c-primary: #1565f0;
+  --c-primary-hover: #0e4fcc;
+  --c-primary-light: #e8f0fe;
+  --c-heading: #0b1533;
+  --c-text: #4a5578;
+  --c-muted: #8a94ad;
+  --c-bg-from: #f5f8fd;
+  --c-bg-to: #eaf1fb;
+  --c-border: rgb(21 101 240 / 0.12);
+
+  /* Surfaces: soft blue-white page, white glass cards, light-blue wells */
+  --bg: var(--c-bg-from);
+  --bg-elevated: #fbfcff;
+  --bg-solid: var(--c-bg-from);
+  --bg-gradient: linear-gradient(180deg, var(--c-bg-from) 0%, var(--c-bg-to) 100%);
+  --surface: #ffffff;
+  --surface-2: #eef4fd;
+  --line: var(--c-border);
+  --line-strong: rgb(21 101 240 / 0.22);
+  --line-input: #c3d0e6;
+
+  /* Glass (cards, navbar on scroll, panels) */
+  --glass: rgb(255 255 255 / 0.75);
+  --glass-strong: rgb(255 255 255 / 0.86);
+  --glass-blur: 16px;
+  --glass-shadow: 0 10px 40px rgb(11 21 51 / 0.06);
+  --glass-shadow-hover: 0 18px 50px rgb(11 21 51 / 0.1), 0 0 0 1px rgb(21 101 240 / 0.18);
+
+  /* Text */
+  --ink: var(--c-heading);
+  --text: var(--c-heading);
+  --text-muted: var(--c-text);
+  /* Captions: the palette's #8A94AD is only 2.9:1 on white, so readable
+     small text uses a deeper step of the same hue (4.8:1). */
+  --text-subtle: #66718f;
+  --text-faint: var(--c-muted);
+
+  /* Brand roles: blue = action, links, icons, accent words and focus */
+  --primary-fill: var(--c-primary);
+  --primary-fill-hover: var(--c-primary-hover);
+  --on-primary: #ffffff;
+  --primary-light: var(--c-primary-light);
+  --brand: var(--c-primary);
+  --accent: var(--c-primary);
+  --heading-soft: var(--accent);
+  /* Legacy "sun" roles now resolve to the blue scale (chips, progress, glows). */
+  --sun: var(--c-primary);
+  --gold: #5b9bff;
+  --ember-deep: var(--c-primary-hover);
+  --on-sun: #ffffff;
+  --cyan: #38bdf8;
+  --focus: var(--c-primary);
+
+  /* Neutral overlays that work on either theme */
+  --tint: #0b1533;
+  --scrim: #0b1533;
+  --glow-cool: var(--c-primary);
+
+  /* Fonts (next/font variables set on <html>) */
+  --ff-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --ff-heading: var(--ff-display);
+  --ff-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Feedback */
+  --whatsapp: #128c7e;
+  --success: #0f7a4b;
+  --warning: #8a4b00;
+  --danger: #c8281e;
+
+  /* Lines used by the subtle grid utility */
+  --grid-line: rgb(21 101 240 / 0.06);
+
+  /* Elevation: soft, blue-tinted navy shadows */
+  --shadow-xs: 0 1px 2px rgb(11 21 51 / 0.05);
+  --shadow-sm: 0 1px 2px rgb(11 21 51 / 0.04), 0 10px 40px rgb(11 21 51 / 0.06);
+  --shadow-md: 0 2px 4px rgb(11 21 51 / 0.04), 0 18px 50px rgb(11 21 51 / 0.1);
+  --shadow-lg: 0 2px 6px rgb(11 21 51 / 0.05), 0 40px 90px -30px rgb(11 21 51 / 0.25);
+  --shadow-primary: 0 8px 24px rgb(21 101 240 / 0.3);
+  --shadow-primary-hover: 0 12px 30px rgb(21 101 240 / 0.38);
+  --shadow-card: var(--glass-shadow);
+  --shadow-float: var(--shadow-md);
+  --inset-highlight: inset 0 1px 0 rgb(255 255 255 / 0.8);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur-base: 250ms;
+  --dur-slow: 600ms;
+  --dur-slower: 900ms;
+
+  /* Layout */
+  --nav-height: 5.5rem;
+  --radius: 1.375rem;
+  --gutter: clamp(1rem, 0.4rem + 3vw, 3rem);
+
+  /* shadcn/ui contract */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--primary-fill);
+  --primary-foreground: var(--on-primary);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-2);
+  --muted-foreground: var(--text-muted);
+  --accent-foreground: var(--text);
+  --destructive: var(--danger);
+  --border: var(--line);
+  --input: var(--line-input);
+  --ring: var(--focus);
+
+  color-scheme: light;
+}
+
+@layer base {
+  /* Glow: the light "hero" band used by page heroes, statement bands and
+     feature panels. Same tokens as the page, on a blue-white gradient with
+     soft radial light. */
+  .theme-glow {
+    --bg: #f3f7fe;
+    --surface: var(--glass-strong);
+    color: var(--text);
+    background-color: var(--c-bg-from);
+    background-image:
+      radial-gradient(60rem 36rem at 85% 10%, rgb(21 101 240 / 0.1), transparent 65%),
+      radial-gradient(48rem 30rem at 5% 90%, rgb(91 155 255 / 0.1), transparent 70%),
+      linear-gradient(180deg, var(--c-bg-from) 0%, var(--c-bg-to) 100%);
+  }
+
+  /* Deep: navy surfaces (footer, chat header). */
+  .theme-deep {
+    --bg: var(--c-heading);
+    --bg-elevated: #101d42;
+    --bg-solid: var(--c-heading);
+    --surface: #13224a;
+    --surface-2: #1a2b58;
+    --line: rgb(255 255 255 / 0.1);
+    --line-strong: rgb(255 255 255 / 0.18);
+    --line-input: #7e92b8;
+    --glass: rgb(255 255 255 / 0.06);
+    --glass-strong: rgb(255 255 255 / 0.1);
+
+    --text: #ffffff;
+    --text-muted: #c3cbe0;
+    --text-subtle: #9aa5c4;
+    --text-faint: #8a94ad;
+
+    --brand: #7fb0ff;
+    --accent: #7fb0ff;
+    --focus: #9cc2ff;
+
+    --primary-fill: var(--c-primary);
+    --primary-fill-hover: #2a76ff;
+    --on-primary: #ffffff;
+
+    /* Aliases resolve where they are declared, so re-point them for deep. */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --popover: var(--surface);
+    --popover-foreground: var(--text);
+    --primary: var(--primary-fill);
+    --primary-foreground: var(--on-primary);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text);
+    --muted: var(--surface-2);
+    --muted-foreground: var(--text-muted);
+    --accent-foreground: var(--text);
+    --destructive: var(--danger);
+    --border: var(--line);
+    --input: var(--line-input);
+    --ring: var(--focus);
+
+    --tint: #ffffff;
+    --grid-line: rgb(255 255 255 / 0.045);
+
+    --success: #3dd68c;
+    --warning: #f5b840;
+    --danger: #ff7a70;
+
+    --shadow-xs: 0 1px 2px rgb(2 8 20 / 0.4);
+    --shadow-sm: 0 1px 2px rgb(2 8 20 / 0.4), 0 8px 24px -12px rgb(2 8 20 / 0.6);
+    --shadow-md: 0 2px 4px rgb(2 8 20 / 0.4), 0 24px 56px -20px rgb(2 8 20 / 0.7);
+    --shadow-lg: 0 2px 6px rgb(2 8 20 / 0.45), 0 40px 90px -30px rgb(2 8 20 / 0.8);
+    --inset-highlight: inset 0 1px 0 rgb(255 255 255 / 0.06);
+
+    color: var(--text);
+    background-color: var(--bg);
+    color-scheme: dark;
+  }
+}
+
+/* Font pairings: Plus Jakarta Sans (headings) + Inter (body) is the brand
+   default; the others remain for the local Design options tool (/design). */
+[data-font="geist"] {
+  --ff-heading: var(--font-geist-sans);
+  --ff-body: var(--font-geist-sans);
+}
+[data-font="jakarta"] {
+  --ff-heading: var(--font-jakarta);
+  --ff-body: var(--font-inter);
+}
+[data-font="sora"] {
+  --ff-heading: var(--font-sora);
+  --ff-body: var(--font-dm-sans);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-on-primary: var(--on-primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-hover: var(--primary-fill-hover);
+  --color-on-sun: var(--on-sun);
+  --color-glass: var(--glass);
+  --color-faint: var(--text-faint);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand utilities: bg-bg, bg-surface, text-subtle, border-line, text-brand … */
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-line-input: var(--line-input);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-brand: var(--brand);
+  --color-heading-soft: var(--heading-soft);
+  --color-ink: var(--ink);
+  --color-sun: var(--sun);
+  --color-gold: var(--gold);
+  --color-ember-deep: var(--ember-deep);
+  --color-tint: var(--tint);
+  --color-scrim: var(--scrim);
+  --color-focus: var(--focus);
+  --color-whatsapp: var(--whatsapp);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--ff-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--ff-display);
+  --font-heading: var(--ff-heading);
+  /* No monospace face: labels, indices and figures use Geist with tabular numerals. */
+  --font-mono: var(--ff-body), ui-sans-serif, system-ui, sans-serif;
+
+  /* Fluid type scale (DESIGN.md §4) */
+  /* H1: 36-40px on phones, 56-64px on desktop */
+  --text-display-1: clamp(2.375rem, 1.55rem + 3.3vw, 4rem);
+  --text-display-1--line-height: 1.1;
+  --text-display-1--letter-spacing: -0.02em;
+  --text-display-2: clamp(2.25rem, 1.6rem + 2.7vw, 3.5rem);
+  --text-display-2--line-height: 1.1;
+  --text-display-2--letter-spacing: -0.02em;
+  --text-heading-1: clamp(1.875rem, 1.4rem + 1.9vw, 2.875rem);
+  --text-heading-1--line-height: 1.15;
+  --text-heading-1--letter-spacing: -0.02em;
+  --text-heading-2: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-heading-2--line-height: 1.2;
+  --text-heading-2--letter-spacing: -0.015em;
+  --text-heading-3: 1.25rem;
+  --text-heading-3--line-height: 1.3;
+  --text-heading-3--letter-spacing: -0.01em;
+  /* Body lead: 17-18px, 1.6 */
+  --text-lead: clamp(1.0625rem, 1.02rem + 0.2vw, 1.125rem);
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: 0;
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.12em;
+
+  --radius-sm: 0.625rem;
+  --radius-md: 0.75rem;
+  --radius-lg: var(--radius);
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.25rem;
+
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --ease-out-expo: var(--ease-out);
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-marquee-reverse: marquee var(--marquee-duration, 40s) linear
+    infinite reverse;
+  --animate-fade-up: fade-up 0.8s var(--ease-out) both;
+  --animate-pulse-soft: pulse-soft 2.4s var(--ease-in-out) infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-float: float 6s var(--ease-in-out) infinite;
+  --animate-orbit: orbit-spin 24s linear infinite;
+  --animate-beam: beam-flow 3.2s linear infinite;
+  --animate-caret: caret 1s steps(1) infinite;
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - var(--marquee-gap, 0px) / 2), 0, 0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+/* Hero crystal: slow orbit rings (the ring is tilted by its parent). */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes crystal-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+/* Travelling dash along an SVG path normalised with pathLength="100". */
+@keyframes beam-flow {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes caret {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes particle-drift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    opacity: var(--particle-opacity, 0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--particle-x, 12px), -90px, 0);
+  }
+}
+
+/* The horizon sun rises once, on first paint. */
+@keyframes sun-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(-50%, 18%, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+}
+
+@keyframes horizon-draw {
+  from {
+    transform: scaleX(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply bg-bg font-sans text-text antialiased;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-height) + 1rem);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Big monitors / TVs: scale the whole layout (everything is rem-based). */
+  @media (width >= 120rem) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+  @media (width >= 160rem) {
+    html {
+      font-size: 125%;
+    }
+  }
+
+  body {
+    @apply min-h-dvh overflow-x-clip text-text;
+    font-variant-numeric: lining-nums;
+    isolation: isolate;
+    /* Phones in landscape: keep content clear of the notch / rounded corners. */
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    background-color: var(--bg);
+    background-image: var(--bg-gradient);
+    background-attachment: fixed;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-feature-settings:
+      "ss01" 1,
+      "cv11" 1;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--sun) 28%, transparent);
+    color: var(--text);
+  }
+
+  /* Visible, consistent focus ring for keyboard users (WCAG 2.4.7 / 2.4.11). */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Body font follows the chosen pairing on <html> and on /design preview cards. */
+  [data-font] {
+    font-family: var(--ff-body), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1,
+  h2 {
+    @apply text-balance;
+    font-family: var(--ff-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Display type utility (stats, prices, large numerals): heading face, bold. */
+  .font-display {
+    font-family: var(--ff-heading);
+    font-weight: 700;
+  }
+
+  h3,
+  h4 {
+    @apply font-bold tracking-[-0.01em] text-balance;
+    font-family: var(--ff-heading);
+  }
+
+  /* Accent word inside a heading: <em>…</em>, same face and weight, accent colour. */
+  :is(h1, h2, .font-display) em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--nav-height) + 1rem);
+  }
+}
+
+/* The page-wide glow from the Design options tool is retired; the horizon
+   motif carries the atmosphere now. Kept so the tool's "glow" option still works. */
+.bg-fx {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+}
+html[data-bg="glow"] .bg-fx,
+html[data-bg="living"] .bg-fx {
+  display: block;
+}
+.bg-fx-blob {
+  position: absolute;
+  border-radius: 9999px;
+}
+.bg-fx-a {
+  top: -22rem;
+  left: -14rem;
+  width: 52rem;
+  height: 52rem;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--sun) 18%, transparent), transparent);
+}
+.bg-fx-b {
+  top: 8vh;
+  right: -18rem;
+  width: 50rem;
+  height: 50rem;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--glow-cool) 10%, transparent), transparent);
+}
+.bg-fx-c {
+  display: none;
+}
+
+/* Mini animated preview on /design. */
+.design-thumb-orb {
+  animation: design-thumb 6s ease-in-out infinite alternate;
+}
+.design-thumb-orb-2 {
+  animation: design-thumb 7s ease-in-out infinite alternate-reverse;
+}
+@keyframes design-thumb {
+  to {
+    transform: translate3d(2.5rem, 1.25rem, 0) scale(1.12);
+  }
+}
+
+/* ==========================================================================
+   Layout utilities
+   ========================================================================== */
+
+@utility container-page {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility container-narrow {
+  width: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Section rhythm: 64px on phones, 100px on desktop. */
+@utility section-y {
+  padding-block: clamp(4rem, 2.8rem + 4vw, 6.25rem);
+}
+
+@utility section-y-sm {
+  padding-block: clamp(3rem, 2.4rem + 2.4vw, 4.5rem);
+}
+
+/* Alternate section backgrounds: white, then a very light blue gradient. */
+@utility section-white {
+  background-color: #ffffff;
+}
+@utility section-tint {
+  background-image: linear-gradient(180deg, var(--c-bg-from) 0%, var(--c-bg-to) 100%);
+}
+
+/* Short uppercase label: eyebrows, indices, metadata. */
+@utility label-mono {
+  font-family: var(--ff-body);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Tabular figures for prices, counters and timestamps. */
+@utility numeric {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Hairline that fades out at both ends. */
+@utility rule-fade {
+  background: linear-gradient(to right, transparent, var(--line-strong) 12%, var(--line-strong) 88%, transparent);
+  height: 1px;
+}
+
+/* Fine engineering grid. Combine with mask-* utilities to fade edges. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size, 44px) var(--grid-size, 44px);
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(color-mix(in oklab, var(--tint) 12%, transparent) 1px, transparent 1px);
+  background-size: var(--dot-size, 22px) var(--dot-size, 22px);
+}
+
+@utility mask-radial {
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+}
+
+@utility mask-fade-y {
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Glass card: white 75%, 16px blur, light-blue hairline, soft navy shadow. */
+@utility glass-card {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  border: 1px solid var(--line);
+  box-shadow: var(--glass-shadow), var(--inset-highlight);
+}
+
+/* Hover for interactive glass cards: lift 5px, stronger shadow, blue edge glow. */
+@utility glass-hover {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+  &:hover {
+    transform: translate3d(0, -5px, 0);
+    border-color: rgb(21 101 240 / 0.28);
+    box-shadow: var(--glass-shadow-hover), var(--inset-highlight);
+  }
+}
+
+/* Resting card: the glass card (kept as an alias for existing call sites). */
+@utility surface-card {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  border: 1px solid var(--line);
+  box-shadow: var(--glass-shadow), var(--inset-highlight);
+}
+
+/* Icon tile: a light-blue rounded square holding a blue icon. */
+@utility icon-tile {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 0.875rem;
+  background: var(--primary-light);
+  color: var(--c-primary);
+  box-shadow: inset 0 0 0 1px rgb(21 101 240 / 0.1);
+}
+
+/* Formerly a film grain for night bands; the light theme is grain-free. */
+@utility grain {
+  position: relative;
+}
+
+/* ==========================================================================
+   Horizon, the brand motif (components/ui/horizon.tsx)
+   ========================================================================== */
+
+.horizon {
+  position: absolute;
+  inset-inline: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.horizon-sun {
+  position: absolute;
+  left: 50%;
+  width: min(78rem, 140vw);
+  aspect-ratio: 2 / 1;
+  border-radius: 9999px 9999px 0 0;
+  background: radial-gradient(
+    ellipse 50% 100% at 50% 100%,
+    color-mix(in oklab, var(--gold) 18%, transparent) 0%,
+    color-mix(in oklab, var(--sun) 12%, transparent) 26%,
+    color-mix(in oklab, var(--ember-deep) 6%, transparent) 52%,
+    transparent 74%
+  );
+  transform: translate3d(-50%, 0, 0);
+  animation: sun-rise 1.8s var(--ease-out) 0.15s both;
+}
+.horizon-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 1px;
+  opacity: 0.35;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 70%, transparent) 22%,
+    var(--sun) 50%,
+    color-mix(in oklab, var(--ember-deep) 70%, transparent) 78%,
+    transparent
+  );
+  transform-origin: 50% 50%;
+  animation: horizon-draw 1.4s var(--ease-out) both;
+}
+.horizon-reflection {
+  display: none;
+  position: absolute;
+  left: 50%;
+  height: 1px;
+  translate: -50% 0;
+  background: linear-gradient(to right, transparent, color-mix(in oklab, var(--sun) 55%, transparent), transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Pointer spotlight. A single client listener writes --mx/--my onto each
+   [data-spotlight] card; the glow itself is pure CSS.
+   -------------------------------------------------------------------------- */
+[data-spotlight] {
+  --mx: 50%;
+  --my: 50%;
+  --spot-opacity: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+[data-spotlight]::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    360px circle at var(--mx) var(--my),
+    color-mix(in oklab, var(--sun) 55%, transparent),
+    transparent 55%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: var(--spot-opacity);
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+  z-index: 2;
+}
+
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    520px circle at var(--mx) var(--my),
+    color-mix(in oklab, var(--sun) 5%, transparent),
+    transparent 45%
+  );
+  opacity: var(--spot-opacity);
+  transition: opacity var(--dur-base) var(--ease-out);
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-spotlight]:hover,
+[data-spotlight]:focus-within {
+  --spot-opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal. Content is visible by default; the `js` class (set inline
+   before first paint) opts into the hidden starting state, and PageEffects
+   flips data-revealed. No JS => no hidden content.
+   -------------------------------------------------------------------------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal="fade"] {
+  transform: none;
+}
+
+.js [data-reveal="scale"] {
+  transform: scale(0.98);
+}
+
+.js [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance, CSS only so it starts with first paint (no hydration). */
+.hero-enter {
+  animation: fade-up 0.9s var(--ease-out) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* SVG beam: a travelling dash on a path with pathLength="100". */
+.beam-dash {
+  stroke-dasharray: 9 91;
+  stroke-dashoffset: 100;
+  animation: beam-flow var(--beam-duration, 3.2s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+}
+
+.particle {
+  position: absolute;
+  width: var(--particle-size, 2px);
+  height: var(--particle-size, 2px);
+  border-radius: 9999px;
+  background: var(--particle-color, color-mix(in oklab, var(--tint) 30%, transparent));
+  opacity: 0;
+  animation: particle-drift var(--particle-duration, 9s) linear infinite;
+  animation-delay: var(--particle-delay, 0s);
+}
+
+/* Marquee pauses on hover/focus for readability. */
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+/* ==========================================================================
+   Components layer (utilities can still override)
+   ========================================================================== */
+@layer components {
+  /* ---- Form controls --------------------------------------------------- */
+  .field-label {
+    @apply flex items-baseline gap-2 text-sm font-medium text-text;
+  }
+  .field-hint {
+    @apply text-xs font-normal text-subtle;
+  }
+  .field-error {
+    @apply flex items-center gap-1.5 text-[0.8125rem] font-medium text-danger;
+  }
+
+  .field-control {
+    /* 16px on phones: anything smaller makes iOS Safari zoom in on focus. */
+    @apply block min-h-12 w-full rounded-md border border-line-input bg-white px-4 py-3 text-base text-text placeholder:text-subtle sm:text-[0.9375rem];
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+  .field-control:hover {
+    border-color: color-mix(in oklab, var(--line-input) 70%, var(--text));
+  }
+  .field-control:focus-visible {
+    outline: none;
+    border-color: var(--focus);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--focus) 22%, transparent);
+  }
+  .field-control[aria-invalid="true"] {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--danger) 14%, transparent);
+  }
+  .field-control:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+  textarea.field-control {
+    @apply min-h-36 resize-y leading-relaxed;
+  }
+  select.field-control {
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235f6473' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+  }
+
+  /* ---- Rounded fields with floating labels (contact form) -------------- */
+  .field-line {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--line-input);
+    border-radius: 0.75rem;
+    background: var(--glass-strong);
+    /* 17px: large enough that iOS Safari never zooms on focus */
+    padding: 1.5rem 1rem 0.625rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--text);
+    caret-color: var(--c-primary);
+    outline: none;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+  .field-line::placeholder {
+    color: transparent;
+  }
+  .field-line:hover {
+    border-color: color-mix(in oklab, var(--line-input) 50%, var(--c-primary));
+  }
+  /* Focus: blue border plus a soft blue ring */
+  .field-line:focus-visible {
+    outline: none;
+    border-color: var(--focus);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--focus) 18%, transparent);
+  }
+  .field-line:-webkit-autofill,
+  .field-line:-webkit-autofill:hover,
+  .field-line:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--text);
+    caret-color: var(--c-primary);
+    transition: background-color 600000s 0s;
+  }
+  .field-line[aria-invalid="true"] {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--danger) 12%, transparent);
+  }
+  .field-line:disabled {
+    opacity: 0.6;
+  }
+
+  .field-float {
+    position: absolute;
+    top: 1.0625rem;
+    left: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--text-subtle);
+    pointer-events: none;
+    transform-origin: left top;
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out);
+  }
+  .field-line:focus ~ .field-float,
+  .field-line:not(:placeholder-shown) ~ .field-float,
+  .field-line:-webkit-autofill ~ .field-float {
+    transform: translateY(-0.6875rem) scale(0.76);
+  }
+  .field-line:focus ~ .field-float {
+    color: var(--c-primary);
+  }
+  .field-line[aria-invalid="true"] ~ .field-float {
+    color: var(--danger);
+  }
+
+  /* Formerly the focus underline; the ring on .field-line replaces it. */
+  .field-line-bar {
+    display: none;
+  }
+
+  /* ---- Logo (components/brand/logo.tsx) --------------------------------
+     Navy wordmark on day surfaces; white on night. CSS fill overrides the
+     SVG's fill attribute, so the sun keeps its own colours. */
+  .theme-deep .logo-word {
+    fill: var(--text);
+  }
+  .theme-deep .logo-tagline {
+    fill: var(--text-muted);
+  }
+  .theme-deep .logo-rules {
+    fill: var(--text-subtle);
+  }
+
+  /* ---- Alerts ---------------------------------------------------------- */
+  .alert {
+    @apply flex items-start gap-3 rounded-md border p-4 text-sm leading-relaxed;
+  }
+  .alert-error {
+    @apply border-danger/30 bg-danger/8 text-danger;
+  }
+  .alert-success {
+    @apply border-success/30 bg-success/8 text-success;
+  }
+  .alert-info {
+    @apply border-line-strong bg-surface-2 text-text-muted;
+  }
+
+  /* ---- Prose (legal pages) --------------------------------------------- */
+  .prose-body {
+    @apply max-w-prose text-[1.0625rem] leading-[1.75] text-text-muted;
+  }
+  .prose-body > * + * {
+    margin-top: 1.1em;
+  }
+}
+
+/* ==========================================================================
+   Print (service plan / estimate pages)
+   ========================================================================== */
+@media print {
+  header[data-site-header],
+  footer[data-site-footer],
+  aside[aria-label="Quick actions"] {
+    display: none !important;
+  }
+  .theme-glow,
+  .theme-deep {
+    --bg: #ffffff;
+    --text: #0b1533;
+    --text-muted: #4a5578;
+    background: #ffffff !important;
+    color: #0a1b33 !important;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: keep the layout, drop the movement.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .beam-dash,
+  .particle,
+  [data-motion="decorative"] {
+    display: none;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .design-thumb-orb,
+  .design-thumb-orb-2,
+  .hero-crystal * {
+    animation: none !important;
+  }
+}
+
+/* Homepage: a quiet blue canvas with the orange sunrise from the brand mark. */
+.sunrise-hero {
+  padding-top: calc(var(--nav-height) + clamp(2.5rem, 5vw, 5rem));
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  background: radial-gradient(ellipse at 92% 15%, #e3edff 0%, transparent 50%),
+    radial-gradient(ellipse at 5% 100%, #fff6eb 0%, transparent 45%), #f5f8fd;
+}
+.sunrise-orbit {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: -20rem;
+  width: 55rem;
+  height: 55rem;
+  border: 1px solid rgb(21 101 240 / 0.06);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5rem rgb(21 101 240 / 0.025), 0 0 0 10rem rgb(21 101 240 / 0.02);
+  pointer-events: none;
+}
+.solution-card { transition: border-color 200ms, box-shadow 200ms; }
+.solution-card:focus-within, .solution-card:hover {
+  border-color: rgb(21 101 240 / 0.3);
+  box-shadow: 0 15px 40px -20px rgb(21 65 130 / 0.2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .solution-card { transition: none; }
+}
