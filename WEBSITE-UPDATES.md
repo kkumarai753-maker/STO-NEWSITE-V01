@@ -1,3 +1,9 @@
+## Official social and contact links
+
+The footer social row now links to the owner-supplied Instagram, Facebook, LinkedIn, X/Twitter, Threads and WhatsApp Channel destinations, plus email and the official website. Exact supplied URLs are preserved, including the Threads handle. The direct WhatsApp chat remains in the floating dock and footer contact list. Icons are accessible vector glyphs, wrap on narrow screens and have descriptive names and tooltips.
+
+The default canonical origin is https://sunrisetechorigin.com; an explicit NEXT_PUBLIC_SITE_URL still overrides it. Owner-confirmed social destinations are also included in Organization sameAs metadata. Public account ownership and remote page availability are based on the owner's supplied details and have not been independently authenticated in this task.
+
 ## Service artwork update
 
 The four main service cards display the owner's supplied social-media, website-development, AI-agent and custom-software artwork. Graphics use object-contain and matching backgrounds so no lettering is cropped. Each image opens its matching service-options section. Service order, package wording and all five supplied demo destinations are unchanged. Provider logos within the supplied AI illustration are not claims of official partnerships.

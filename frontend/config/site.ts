@@ -33,16 +33,9 @@ export const siteConfig = {
     "Nagpur-based Sunrise Tech Origin builds websites, apps, AI integrations, AI workflow automation and business software, plus digital marketing and SEO.",
   audience:
     "Startups, small and medium-sized businesses, local businesses and growing brands that want technology solutions, AI-powered automation and digital growth.",
-  /**
-   * Canonical origin, no trailing slash. Set NEXT_PUBLIC_SITE_URL in production;
-   * Vercel previews fall back to the project's production domain so their
-   * canonical URLs still point at the live site.
-   */
+  /** Confirmed public website. Explicit deployment settings can override it. */
   url: (
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3000")
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://sunrisetechorigin.com"
   ).replace(/\/$/, ""),
   locale: "en_IN",
   language: "en-IN",
@@ -54,8 +47,7 @@ export const siteConfig = {
   },
 
   contact: {
-    // TODO(owner): confirm these as the official public contact details, and
-    // replace the Gmail address with a domain address when one exists.
+    // Public email and social accounts confirmed by the owner.
     email:
       process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "info@sunrisetechorigin.com",
     phone: phoneNumber,
@@ -73,21 +65,56 @@ export const siteConfig = {
     defaultMessage: "Hi, I'd like to explore Sunrise Tech Origin's services.",
   },
 
-  /** Contact channels shown as icon links in the footer and mobile menu. */
+  /** Exact owner-supplied destinations. Direct WhatsApp chat remains in the
+   * floating dock and footer contact list; the social row links to the channel. */
   socials: [
     {
-      label: "WhatsApp",
+      label: "Instagram",
+      icon: "instagram",
+      href: "https://www.instagram.com/sunrisetechorigin_official/",
+    },
+    {
+      label: "Facebook",
+      icon: "facebook",
+      href: "https://www.facebook.com/share/1CzwoKaUi6/",
+    },
+    {
+      label: "LinkedIn",
+      icon: "linkedin",
+      href: "https://www.linkedin.com/company/sunrise-tech-origin/",
+    },
+    { label: "X / Twitter", icon: "x", href: "https://x.com/SunriseTechOrig" },
+    {
+      label: "Threads",
+      icon: "threads",
+      href: "https://www.threads.com/@sunrisetechorign_official",
+    },
+    {
+      label: "WhatsApp Channel",
       icon: "whatsapp",
-      href: whatsappNumber ? `https://wa.me/${whatsappNumber}` : "",
+      href: "https://whatsapp.com/channel/0029VbDeRcpFi8xdLHUnOu02",
+    },
+    {
+      label: "Website",
+      icon: "website",
+      href: "https://sunrisetechorigin.com/",
+    },
+    {
+      label: "Email",
+      icon: "email",
+      href: "mailto:info@sunrisetechorigin.com",
     },
   ],
 
-  /**
-   * Official profiles owned by the company (Organization `sameAs`). Only add
-   * accounts Sunrise Tech Origin controls.
-   * TODO(owner): add LinkedIn, Instagram, Facebook, YouTube, X, etc. once created.
-   */
-  sameAs: [] as string[],
+  /** Owner-confirmed social identities for Organization structured data. */
+  sameAs: [
+    "https://www.instagram.com/sunrisetechorigin_official/",
+    "https://www.facebook.com/share/1CzwoKaUi6/",
+    "https://www.linkedin.com/company/sunrise-tech-origin/",
+    "https://x.com/SunriseTechOrig",
+    "https://www.threads.com/@sunrisetechorign_official",
+    "https://whatsapp.com/channel/0029VbDeRcpFi8xdLHUnOu02",
+  ],
 
   keywords: [
     "Sunrise Tech Origin",
