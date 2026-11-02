@@ -1,3 +1,7 @@
+## Service artwork update
+
+The four main service cards display the owner's supplied social-media, website-development, AI-agent and custom-software artwork. Graphics use object-contain and matching backgrounds so no lettering is cropped. Each image opens its matching service-options section. Service order, package wording and all five supplied demo destinations are unchanged. Provider logos within the supplied AI illustration are not claims of official partnerships.
+
 # Latest approved frontend refresh
 
 The homepage now uses the approved image hero, left hamburger/right-logo header, callback popup and four service categories in the owner's requested order. The template gallery links to the five owner-supplied demos: Aaranya Salon, BNP Wellness, SR Wonder Travels, Sunrise Global Life School and Sunrise Gold Gym. Each demo opens in a new tab.

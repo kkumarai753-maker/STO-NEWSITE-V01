@@ -70,48 +70,20 @@ export function CategorySections() {
                 <p className="mt-5 max-w-lg text-sm leading-relaxed text-text-muted">
                   {category.description}
                 </p>
-                {category.id === "social-media" ? (
-                  <div className="relative mt-7 h-44 overflow-hidden rounded-2xl sm:h-48">
-                    <Image
-                      src="/visuals/business-growth.jpg"
-                      alt="Illustrative team celebrating business growth"
-                      fill
-                      sizes="(min-width:768px) 50vw,100vw"
-                      className="object-cover"
-                    />
-                    <span className="absolute right-3 bottom-3 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-medium text-[#153052]">
-                      Illustrative visual
-                    </span>
-                  </div>
-                ) : (
-                  <div
-                    aria-hidden
-                    className={`relative mt-7 flex min-h-36 items-center justify-center overflow-hidden rounded-2xl p-5 ${category.color === "orange" ? "bg-linear-to-br from-[#fff1dd] to-[#f7d5aa]" : "bg-linear-to-br from-[#deebff] to-[#a8c8fb]"}`}
-                  >
-                    <div className="absolute -right-5 -bottom-14 size-40 rounded-full border-[18px] border-white/35" />
-                    <div className="relative w-full max-w-xs rounded-xl border border-white/80 bg-white/85 p-4 shadow-lg">
-                      <div className="flex items-center gap-1.5">
-                        <span className="size-1.5 rounded-full bg-primary/35" />
-                        <span className="size-1.5 rounded-full bg-primary/20" />
-                        <span className="size-1.5 rounded-full bg-[#ee9a49]" />
-                      </div>
-                      <div className="mt-4 flex items-center gap-3">
-                        <Icon className="size-8 text-primary" />
-                        <p className="text-sm font-medium leading-snug text-[#153052]">
-                          {category.example}
-                        </p>
-                      </div>
-                      <div className="mt-4 grid grid-cols-3 gap-2">
-                        {[1, 2, 3].map((x) => (
-                          <div
-                            key={x}
-                            className="h-1.5 rounded-full bg-primary/15"
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <Link
+                  href={`/services#${category.id}`}
+                  aria-label={`Explore ${category.name}`}
+                  className="relative mt-7 block aspect-[4/5] overflow-hidden rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  style={{ backgroundColor: category.imageBackground }}
+                >
+                  <Image
+                    src={category.image}
+                    alt={category.imageAlt}
+                    fill
+                    sizes="(min-width:1280px) 560px,(min-width:768px) 45vw,90vw"
+                    className="object-contain"
+                  />
+                </Link>
                 <ul className="mt-6 grid gap-2.5 text-sm text-text-muted sm:grid-cols-2">
                   {category.items.map((item) => (
                     <li key={item} className="flex gap-2">

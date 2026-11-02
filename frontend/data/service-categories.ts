@@ -1,6 +1,10 @@
 export const serviceCategories = [
   {
     id: "social-media",
+    image: "/services/social-media.jpg",
+    imageAlt:
+      "Social media marketing and management illustration with social platform icons and a mobile phone.",
+    imageBackground: "#ffffff",
     number: "01",
     name: "Social Media Management",
     short: "Get seen. Stay relevant.",
@@ -23,6 +27,10 @@ export const serviceCategories = [
   },
   {
     id: "website-development",
+    image: "/services/website-development.jpg",
+    imageAlt:
+      "Web and app development: design, develop and launch responsive websites and scalable digital experiences.",
+    imageBackground: "#074988",
     number: "02",
     name: "Website Development",
     short: "Your business, beautifully online.",
@@ -46,6 +54,9 @@ export const serviceCategories = [
   },
   {
     id: "ai-automation",
+    image: "/services/ai-automation.jpg",
+    imageAlt: "Illustrative AI assistant connected to multiple AI tools.",
+    imageBackground: "#020b21",
     number: "03",
     name: "AI Automation & Agents",
     short: "Make everyday work flow.",
@@ -68,6 +79,10 @@ export const serviceCategories = [
   },
   {
     id: "software",
+    image: "/services/software-solutions.jpg",
+    imageAlt:
+      "Custom software development graphic showing CRM, ERP, cloud, API and mobile app connections.",
+    imageBackground: "#fff8f0",
     number: "04",
     name: "Software Solutions",
     short: "Bring your business together.",
