@@ -3,7 +3,7 @@
 # Build:  docker build -t sunrise-backend ./backend
 # Run:    see ../docker-compose.yml (needs DATABASE_URL and API_KEY)
 
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION=3.12
 
 # ---- 1. Install dependencies into a virtualenv -------------------------------
 FROM python:${PYTHON_VERSION}-slim AS builder

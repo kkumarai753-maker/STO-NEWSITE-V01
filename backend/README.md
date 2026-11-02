@@ -1,3 +1,5 @@
+> Runtime: Python 3.12. Both `.python-version` files select the supported minor version rather than an unavailable exact patch. For Vercel, use `backend` as this API project’s Root Directory; Vercel detects `app/main.py`. PostgreSQL, `DATABASE_URL`, and a production `API_KEY` are still required, and migrations must run against that database before serving real submissions.
+
 # Sunrise Tech Origin — Backend API
 
 FastAPI + PostgreSQL service that stores contact-form submissions from the
