@@ -1178,3 +1178,8 @@ html[data-bg="living"] .bg-fx {
 @media (prefers-reduced-motion: reduce) {
   .solution-card { transition: none; }
 }
+
+.preview-kicker { font-size: .6875rem; line-height: 1.6; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #315f99; }
+.service-showcase { transition: border-color 180ms, box-shadow 180ms; }
+.service-showcase:hover { border-color: rgb(21 101 240 / .3); box-shadow: 0 16px 40px -24px rgb(20 55 100 / .3); }
+@media(prefers-reduced-motion: reduce) { .service-showcase { transition: none; } }

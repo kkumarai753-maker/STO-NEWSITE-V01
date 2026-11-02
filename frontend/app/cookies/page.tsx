@@ -14,6 +14,7 @@ export default function CookiesPage() {
           heading: "What we use",
           body: [
             "This website does not set advertising or third-party tracking cookies by default.",
+            "Callback prompt: session storage remembers whether the automatic callback prompt has been shown in this browser tab, so it does not repeatedly interrupt your visit. This flag does not contain the details entered in the form.",
             "Session storage: the AI assistant keeps your current conversation in your browser's session storage so it survives page reloads. It is cleared when you close the tab or press “Clear conversation”.",
           ],
         },

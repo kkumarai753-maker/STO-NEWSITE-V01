@@ -10,6 +10,6 @@ import { usePathname } from "next/navigation";
  */
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  if (pathname === "/admin" || pathname?.startsWith("/admin/")) return null;
+  if (pathname === "/admin" || pathname?.startsWith("/admin/") || pathname?.startsWith("/templates/")) return null;
   return children;
 }

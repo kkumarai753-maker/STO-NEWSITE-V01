@@ -10,7 +10,11 @@ export type NavItem = {
 /** Primary desktop navigation: six links, short enough to never wrap. */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "/services", match: ["/web-technology", "/digital-growth"] },
+  {
+    label: "Services",
+    href: "/services",
+    match: ["/web-technology", "/digital-growth"],
+  },
   { label: "About", href: "/about", match: ["/why-us"] },
   { label: "How We Work", href: "/how-we-work" },
   { label: "FAQs", href: "/faq" },
@@ -24,6 +28,7 @@ export const mobileNav: NavItem[] = [
   { label: "Web & Technology", href: "/web-technology" },
   { label: "Digital Marketing & Growth", href: "/digital-growth" },
   { label: "About Us", href: "/about" },
+  { label: "Blog & Insights", href: "/blog" },
   { label: "Why Us", href: "/why-us" },
   { label: "How We Work", href: "/how-we-work" },
   { label: "FAQs", href: "/faq" },
@@ -39,9 +44,12 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
   {
     title: "Solutions",
     items: [
-      { label: "Web & Technology", href: "/web-technology" },
-      { label: "Digital Marketing & Growth", href: "/digital-growth" },
+      { label: "Social Media Management", href: "/services#social-media" },
+      { label: "Website Development", href: "/services#website-development" },
+      { label: "AI Automation & Agents", href: "/services#ai-automation" },
+      { label: "Software Solutions", href: "/services#software" },
       { label: "All Services", href: "/services" },
+      { label: "Website Templates", href: "/templates" },
       { label: "Free Consultation", href: "/inquiry" },
       { label: "Customer Registration", href: "/register" },
     ],

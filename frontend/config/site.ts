@@ -9,10 +9,9 @@
  * in production (and shown as "not configured" hints in development).
  */
 
-const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "918766803990").replace(
-  /[^\d]/g,
-  "",
-);
+const whatsappNumber = (
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "918766803990"
+).replace(/[^\d]/g, "");
 const phoneNumber = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+91 87668 03990";
 
 export const siteConfig = {
@@ -28,7 +27,7 @@ export const siteConfig = {
    * every source describes the business the same way.
    */
   description:
-    "Sunrise Tech Origin helps businesses grow through website and application development, AI development and integration, AI workflow automation, business software solutions, digital marketing, lead generation, and sales and operations support.",
+    "Sunrise Tech Origin helps startups and growing businesses with social media management, website development, AI automation and agents, and SaaS, ERP, HRMS and CRM software.",
   /** The same description cut to search-snippet length (≤160 characters). */
   metaDescription:
     "Nagpur-based Sunrise Tech Origin builds websites, apps, AI integrations, AI workflow automation and business software, plus digital marketing and SEO.",
@@ -48,12 +47,17 @@ export const siteConfig = {
   locale: "en_IN",
   language: "en-IN",
   /** Official logo (raster, for structured data and social cards). */
-  logo: { path: "/brand/sunrise-tech-origin-logo.png", width: 2400, height: 1665 },
+  logo: {
+    path: "/brand/sunrise-tech-origin-logo.png",
+    width: 2400,
+    height: 1665,
+  },
 
   contact: {
     // TODO(owner): confirm these as the official public contact details, and
     // replace the Gmail address with a domain address when one exists.
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "kkumarai753@gmail.com",
+    email:
+      process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "info@sunrisetechorigin.com",
     phone: phoneNumber,
     location: "Chitnis Nagar, Nagpur, Maharashtra, India",
     hours: "Mon–Sat · 9:00–19:00 IST",
@@ -103,7 +107,8 @@ export const siteConfig = {
  * "development"); self-hosted builds can set SITE_ENV. Only production is
  * indexable, so previews and staging never compete with the live site.
  */
-const deploymentEnv = process.env.VERCEL_ENV ?? process.env.SITE_ENV ?? "production";
+const deploymentEnv =
+  process.env.VERCEL_ENV ?? process.env.SITE_ENV ?? "production";
 export const isIndexable = deploymentEnv === "production";
 
 /**
@@ -112,12 +117,15 @@ export const isIndexable = deploymentEnv === "production";
  * dashboard first, then set NEXT_PUBLIC_VERCEL_ANALYTICS=on. The cookie and
  * privacy policies switch their analytics wording on the same flag.
  */
-export const analyticsEnabled = process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "on";
+export const analyticsEnabled =
+  process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "on";
 
 export type SiteConfig = typeof siteConfig;
 export type SocialIcon = (typeof siteConfig.socials)[number]["icon"];
 
-export function whatsappHref(message: string = siteConfig.whatsapp.defaultMessage) {
+export function whatsappHref(
+  message: string = siteConfig.whatsapp.defaultMessage,
+) {
   if (!siteConfig.whatsapp.number) return null;
   return `https://wa.me/${siteConfig.whatsapp.number}?text=${encodeURIComponent(message)}`;
 }

@@ -1,5 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { servicePages } from "@/data/service-pages";
+import { templates } from "@/data/templates";
+import { articles } from "@/data/blog";
 
 /**
  * Registry of every public page: the single source for page metadata,
@@ -37,7 +39,8 @@ const corePages: PageEntry[] = [
     description: siteConfig.metaDescription,
     label: "Home",
     updated: "2026-10-18",
-    summary: "Overview of the company, both service divisions, process and FAQs.",
+    summary:
+      "Overview of the company, both service divisions, process and FAQs.",
     group: "main",
     priority: 1,
     changeFrequency: "weekly",
@@ -62,7 +65,8 @@ const corePages: PageEntry[] = [
     label: "Web & Technology",
     parent: "/services",
     updated: "2026-10-18",
-    summary: "The Web & Technology division: websites, hosting, maintenance, CRM, business software and AI automation.",
+    summary:
+      "The Web & Technology division: websites, hosting, maintenance, CRM, business software and AI automation.",
     group: "services",
     priority: 0.8,
     changeFrequency: "monthly",
@@ -75,7 +79,8 @@ const corePages: PageEntry[] = [
     label: "Digital Marketing & Growth",
     parent: "/services",
     updated: "2026-10-18",
-    summary: "The Digital Marketing & Growth division: branding, social media, video, paid ads, SEO and lead generation.",
+    summary:
+      "The Digital Marketing & Growth division: branding, social media, video, paid ads, SEO and lead generation.",
     group: "services",
     priority: 0.8,
     changeFrequency: "monthly",
@@ -88,7 +93,8 @@ const corePages: PageEntry[] = [
       "Who Sunrise Tech Origin is: a Nagpur technology and digital growth company building websites, AI automation, business software and marketing for SMBs.",
     label: "About",
     updated: "2026-10-18",
-    summary: "Who the company is, what it does, who it serves, where it is based and how it works.",
+    summary:
+      "Who the company is, what it does, who it serves, where it is based and how it works.",
     group: "company",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -101,7 +107,8 @@ const corePages: PageEntry[] = [
     label: "Why Choose Us",
     parent: "/about",
     updated: "2026-10-18",
-    summary: "Comparison with traditional agencies and freelancers, and the principles the company works by.",
+    summary:
+      "Comparison with traditional agencies and freelancers, and the principles the company works by.",
     group: "company",
     priority: 0.6,
     changeFrequency: "monthly",
@@ -113,7 +120,8 @@ const corePages: PageEntry[] = [
       "The four-step project process from discovery to handover, with milestone payments of 10% to book, 50% to build and 40% at final handover.",
     label: "How We Work",
     updated: "2026-10-18",
-    summary: "Project steps, deliverables at each step, timelines and the 10% / 50% / 40% milestone payment schedule.",
+    summary:
+      "Project steps, deliverables at each step, timelines and the 10% / 50% / 40% milestone payment schedule.",
     group: "company",
     priority: 0.6,
     changeFrequency: "monthly",
@@ -125,7 +133,8 @@ const corePages: PageEntry[] = [
       "Answers about Sunrise Tech Origin's AI development, automation, websites, business software, payments, timelines, ownership and support.",
     label: "FAQs",
     updated: "2026-10-18",
-    summary: "Answers to common buyer questions about services, AI, payments, timelines, ownership and support.",
+    summary:
+      "Answers to common buyer questions about services, AI, payments, timelines, ownership and support.",
     group: "company",
     priority: 0.7,
     changeFrequency: "monthly",
@@ -137,7 +146,8 @@ const corePages: PageEntry[] = [
       "Contact Sunrise Tech Origin in Nagpur by phone, WhatsApp or email, or send your requirement through the form. Open Monday to Saturday, 9:00 to 19:00 IST.",
     label: "Contact",
     updated: "2026-10-18",
-    summary: "Phone, WhatsApp, email, location, business hours and a contact form.",
+    summary:
+      "Phone, WhatsApp, email, location, business hours and a contact form.",
     group: "contact",
     priority: 0.6,
     changeFrequency: "yearly",
@@ -183,7 +193,8 @@ const corePages: PageEntry[] = [
       "How Sunrise Tech Origin collects, uses and protects personal information from this website, the contact forms and the website assistant.",
     label: "Privacy Policy",
     updated: "2026-10-18",
-    summary: "How personal information is collected, used, shared and retained.",
+    summary:
+      "How personal information is collected, used, shared and retained.",
     group: "legal",
     priority: 0.3,
     changeFrequency: "yearly",
@@ -216,6 +227,58 @@ const corePages: PageEntry[] = [
 
 export const pages: PageEntry[] = [
   ...corePages,
+  {
+    path: "/templates",
+    title: "Website Templates & Demos",
+    description:
+      "Explore Sunrise website demos for salons, wellness businesses, travel agencies, schools and gyms. Find inspiration and discuss a website for your business.",
+    label: "Website Templates",
+    updated: "2026-11-02",
+    summary: "Industry website demo gallery.",
+    group: "main",
+    priority: 0.8,
+    changeFrequency: "monthly",
+  },
+  ...templates.map(
+    (t): PageEntry => ({
+      path: `/templates/${t.slug}`,
+      title: `${t.subtitle} — Concept Demo`,
+      description: t.description,
+      label: t.subtitle,
+      parent: "/templates",
+      updated: "2026-11-02",
+      summary: t.description,
+      group: "main",
+      index: false,
+    }),
+  ),
+  {
+    path: "/blog",
+    title: "Blog & Practical Digital Guides",
+    description:
+      "Practical guides from Sunrise Tech Origin on planning a business website, preparing digital campaigns and choosing your first automation workflow.",
+    label: "Blog & Insights",
+    updated: "2026-11-02",
+    summary:
+      "Practical guides for business websites, marketing and automation.",
+    group: "company",
+    priority: 0.6,
+    changeFrequency: "monthly",
+  },
+  ...articles.map(
+    (a): PageEntry => ({
+      path: `/blog/${a.slug}`,
+      title: a.title,
+      description: a.intro,
+      label: a.title,
+      parent: "/blog",
+      updated: "2026-11-02",
+      summary: a.intro,
+      group: "company",
+      priority: 0.6,
+      changeFrequency: "monthly",
+    }),
+  ),
   ...servicePages.map(
     (s): PageEntry => ({
       path: `/services/${s.slug}`,
@@ -234,14 +297,23 @@ export const pages: PageEntry[] = [
 
 export function getPage(path: string): PageEntry {
   const page = pages.find((p) => p.path === path);
-  if (!page) throw new Error(`No page registered for ${path} (add it to config/pages.ts)`);
+  if (!page)
+    throw new Error(
+      `No page registered for ${path} (add it to config/pages.ts)`,
+    );
   return page;
 }
 
 /** Home → … → page, following `parent` links. */
-export function breadcrumbTrail(path: string): { name: string; path: string }[] {
+export function breadcrumbTrail(
+  path: string,
+): { name: string; path: string }[] {
   const trail: PageEntry[] = [];
-  for (let page: PageEntry | undefined = getPage(path); page; page = page.parent ? getPage(page.parent) : undefined) {
+  for (
+    let page: PageEntry | undefined = getPage(path);
+    page;
+    page = page.parent ? getPage(page.parent) : undefined
+  ) {
     trail.unshift(page);
   }
   if (trail[0]?.path !== "/") trail.unshift(getPage("/"));

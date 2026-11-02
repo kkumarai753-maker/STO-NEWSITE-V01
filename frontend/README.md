@@ -1,3 +1,5 @@
+> Current homepage: image-based hero, all-screen hamburger navigation, callback popup, five supplied external website demos, four service categories and a Blog. See [WEBSITE-UPDATES.md](../WEBSITE-UPDATES.md) for delivery configuration and validation limits.
+
 > Updated website: see [WEBSITE-UPDATES.md](../WEBSITE-UPDATES.md) for the current design, contact flow, validation and deployment instructions.
 
 # Sunrise Tech Origin — Website (frontend)

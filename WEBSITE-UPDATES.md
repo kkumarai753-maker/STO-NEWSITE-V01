@@ -1,3 +1,19 @@
+# Latest approved frontend refresh
+
+The homepage now uses the approved image hero, left hamburger/right-logo header, callback popup and four service categories in the owner's requested order. The template gallery links to the five owner-supplied demos: Aaranya Salon, BNP Wellness, SR Wonder Travels, Sunrise Global Life School and Sunrise Gold Gym. Each demo opens in a new tab.
+
+The gallery uses owner-supplied illustrative graphics for salon, wellness, travel and gym; the school card uses generated illustrative campus artwork. These graphics are labelled illustrative and are not claimed to be screenshots of the remote websites. Earlier local concept recordings are not attached to the owner-supplied destinations. The business-growth graphic appears in the social-media service card.
+
+Public email: **info@sunrisetechorigin.com**. Prices remain subject to scoping; no unapproved rates have been added. The small amounts shown in old, separately labelled local concept storefronts are demonstration product amounts, not Sunrise service prices.
+
+Blog, Feedback, policy links, industry filters and service enquiry links are included. The callback form can use the existing backend/email/webhook when configured, or explicitly offers visitor-sent email/WhatsApp drafts otherwise. A draft is never described as delivered.
+
+Validation: production build, TypeScript, lint, browser checks and scoped homepage/menu/callback accessibility checks passed. Exact supplied external URL mappings and mobile gallery behavior were checked locally. Remote demo uptime could not be verified because this environment's network proxy rejected the HTTPS tunnels with 403.
+
+GitHub commit and deployment status are reported separately; a successful local build or Git push alone does not establish a completed Vercel deployment.
+
+---
+
 # Sunrise Tech Origin — website update
 
 This version builds on the supplied `sunrise-main.zip`. The original logo, detailed service pages, legal pages, FastAPI backend and admin area are retained.

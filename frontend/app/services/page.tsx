@@ -1,70 +1,70 @@
 import Link from "next/link";
-import { PageSchema } from "@/components/seo/json-ld";
-import { ServiceLinks } from "@/components/services/service-links";
-import { ServicesCatalogClient } from "@/components/services/services-catalog-client";
-import { Button, ButtonArrow } from "@/components/ui/button";
+import { ArrowUpRight, Check } from "lucide-react";
 import { PageHero } from "@/components/ui/page-hero";
-import { SERVICES } from "@/data/services-catalog";
-import { catalogJsonLd, pageMetadata } from "@/lib/seo";
-
+import { PageSchema } from "@/components/seo/json-ld";
+import { serviceCategories } from "@/data/service-categories";
+import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata("/services");
-
-const FACTS = [
-  { value: String(SERVICES.length), label: "services across two divisions" },
-  { value: "Free", label: "first consultation" },
-  { value: "10 · 50 · 40", label: "milestone payments, in %" },
-];
-
 export default function ServicesPage() {
   return (
     <>
-      <PageSchema path="/services" type="CollectionPage" nodes={[catalogJsonLd("/services")]} />
+      <PageSchema path="/services" />
       <PageHero
-        eyebrow="Service catalog"
         path="/services"
+        eyebrow="Made for your next chapter"
         title={
           <>
-            Our <em>services.</em>
+            Four services.
+            <br />
+            <em>Connected possibilities.</em>
           </>
         }
-        lead="Every service we offer, across Web & Technology and Digital Marketing & Growth. Each project is scoped with you and confirmed in a written quotation after a free consultation."
-        actions={
-          <>
-            <Button asChild size="lg">
-              <a href="#catalog">
-                View services
-                <ButtonArrow className="rotate-90 group-hover/button:translate-x-0 group-hover/button:translate-y-0.5" />
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/inquiry">Book a free consultation</Link>
-            </Button>
-          </>
-        }
-        aside={
-          <dl className="grid grid-cols-3 gap-4 border-t border-line pt-6 lg:grid-cols-1 lg:gap-0 lg:border-t-0 lg:pt-0">
-            {FACTS.map((f) => (
-              <div key={f.label} className="flex flex-col lg:flex-row lg:items-baseline lg:justify-between lg:gap-6 lg:border-b lg:border-line lg:py-5 lg:first:border-t">
-                <dt className="order-2 mt-2 text-xs text-text-muted sm:text-sm lg:mt-0">{f.label}</dt>
-                <dd className="order-1 font-display text-xl tracking-[-0.02em] whitespace-nowrap text-text numeric sm:text-3xl">{f.value}</dd>
+        lead="Explore the options below. Packages are shaped around your requirements, and prices are confirmed in a written quotation."
+      />
+      <section className="section-y-sm">
+        <div className="container-page space-y-12">
+          {serviceCategories.map((c) => (
+            <article
+              id={c.id}
+              key={c.id}
+              className="scroll-mt-28 rounded-3xl border border-line bg-white p-6 sm:p-10"
+            >
+              <p className="preview-kicker">
+                {c.number} / {c.short}
+              </p>
+              <h2 className="mt-4 text-heading-2 text-text">{c.name}</h2>
+              <p className="mt-4 max-w-2xl text-text-muted">{c.description}</p>
+              <ul className="mt-6 grid gap-3 text-sm sm:grid-cols-2">
+                {c.items.map((item) => (
+                  <li key={item} className="flex gap-2 text-text-muted">
+                    <Check className="size-4 text-primary" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 grid gap-3 md:grid-cols-2">
+                {c.packages.map((p) => (
+                  <div
+                    key={p}
+                    className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-[#f7faff] p-5"
+                  >
+                    <h3 className="text-sm font-semibold text-text">{p}</h3>
+                    <span className="text-xs text-text-muted">
+                      Quotation after scoping
+                    </span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </dl>
-        }
-      />
-
-      <ServiceLinks
-        id="service-pages-title"
-        title={
-          <>
-            AI, software and growth services, <em>explained.</em>
-          </>
-        }
-        description="What each service covers and how projects work."
-      />
-
-      <section id="catalog" aria-label="All services" className="section-y-sm">
-        <ServicesCatalogClient />
+              <Link
+                href={`/inquiry?service=${encodeURIComponent(c.name)}`}
+                className="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-primary px-6 text-sm font-semibold text-white"
+              >
+                Discuss {c.name}
+                <ArrowUpRight className="size-4" aria-hidden />
+              </Link>
+            </article>
+          ))}
+        </div>
       </section>
     </>
   );
