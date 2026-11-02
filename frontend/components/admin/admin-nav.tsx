@@ -1,7 +1,7 @@
 "use client";
 
 /** Admin section links. Why client: highlights the current page. */
-import { LayoutDashboard, Inbox } from "lucide-react";
+import { LayoutDashboard, Inbox, Briefcase } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { adminNav } from "@/lib/admin";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const icons = {
   "/admin": LayoutDashboard,
   "/admin/records": Inbox,
+  "/admin/recruitment": Briefcase,
 } as const;
 
 /**

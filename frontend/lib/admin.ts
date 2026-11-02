@@ -9,6 +9,7 @@ export const ADMIN_SIDEBAR_COOKIE = "admin_sidebar";
 export const adminNav = [
   { label: "Dashboard", href: "/admin" },
   { label: "Records", href: "/admin/records" },
+  { label: "Recruitment", href: "/admin/recruitment" },
 ] as const;
 
 export const statusLabels = {

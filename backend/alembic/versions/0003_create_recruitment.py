@@ -1,0 +1,399 @@
+"""Private recruitment tables and 13 unpublished draft role profiles."""
+
+from alembic import op
+import sqlalchemy as sa
+import json
+
+revision = "0003"
+down_revision = "0002"
+branch_labels = None
+depends_on = None
+PROFILES = json.loads(r"""[
+  {
+    "id": "WEB-01",
+    "slug": "website-sales-executive",
+    "title": "Website Sales Executive",
+    "category": "website-development",
+    "function": "Sales",
+    "headline": "Turn business ideas into clear website briefs.",
+    "summary": "Guide prospective clients from their first enquiry to an agreed website proposal. Understand what their business needs online and coordinate a clear handover to the website delivery team.",
+    "responsibilities": [
+      "Qualify enquiries for business websites, landing pages and e-commerce projects; record goals, content needs and required features.",
+      "Explain website options, domain and hosting requirements, and the difference between development and ongoing support.",
+      "Coordinate demos and written proposals; discuss scope and commercial terms within company-approved limits.",
+      "Maintain CRM notes, follow-ups and meeting outcomes; hand over confirmed requirements, approvals and client commitments to operations."
+    ],
+    "skills": [
+      "Clear client communication, discovery questions and consultative selling.",
+      "Basic understanding of websites, domains, hosting and enquiry journeys.",
+      "Organised follow-ups, spreadsheet or CRM use, and accurate documentation."
+    ],
+    "work_samples": "An anonymised sales example, sample discovery brief or proposal outline, if available.",
+    "visual_note": "A client consultation with a website preview and brief. Emphasise discovery and communication rather than a coding screen.",
+    "image": "",
+    "display_order": 1,
+    "status": "Draft"
+  },
+  {
+    "id": "WEB-02",
+    "slug": "website-operations-project-coordinator",
+    "title": "Website Operations & Project Coordinator",
+    "category": "website-development",
+    "function": "Operations",
+    "headline": "Keep every website project moving towards launch.",
+    "summary": "Own day-to-day client coordination and delivery tracking for website projects. Bring together content, design, development, approvals and handover so the agreed scope is delivered clearly.",
+    "responsibilities": [
+      "Collect client briefs, logos, content and authorised access; coordinate logo or creative approvals when included in the project.",
+      "Track tasks, dependencies, client reviews and changes; keep the client and delivery team informed about progress and blockers.",
+      "Guide domain and hosting setup in client-owned accounts; coordinate website reviews, enquiry-form tests and WhatsApp integration checks.",
+      "Coordinate approved quotations, invoices and payment milestones; document change requests and organise launch, access handover and support notes."
+    ],
+    "skills": [
+      "Project coordination, task tracking and clear written communication.",
+      "Basic website QA, domain/hosting awareness and careful handling of client access.",
+      "Attention to scope, approvals, deadlines and accurate project records."
+    ],
+    "work_samples": "A sample project tracker, delivery checklist or client-update note, if available.",
+    "visual_note": "A project coordinator reviewing a delivery board, website preview and approval checklist; use organised, readable visual cues.",
+    "image": "",
+    "display_order": 2,
+    "status": "Draft"
+  },
+  {
+    "id": "WEB-03",
+    "slug": "website-developer",
+    "title": "Website Developer",
+    "category": "website-development",
+    "function": "Development",
+    "headline": "Build websites that feel clear, fast and reliable.",
+    "summary": "Create and maintain responsive websites, landing pages and scoped e-commerce experiences. Turn approved designs and business requirements into accessible, usable pages that work across devices.",
+    "responsibilities": [
+      "Build responsive pages and reusable components with accurate typography, spacing, navigation and brand assets.",
+      "Implement enquiry forms, WhatsApp click-to-chat, CMS content and agreed third-party integrations.",
+      "Test mobile layouts, accessibility, page performance, browser behaviour and form error states; resolve defects before launch.",
+      "Manage version-controlled changes and support domain/DNS configuration, hosting deployment, handover and agreed maintenance."
+    ],
+    "skills": [
+      "Practical HTML, CSS and JavaScript skills, plus relevant framework or CMS experience.",
+      "Responsive design, debugging, version control and basic SEO implementation.",
+      "Ability to explain technical choices and share evidence of working projects."
+    ],
+    "work_samples": "Links to websites or a repository, with a short note describing your contribution.",
+    "visual_note": "A clean laptop-and-mobile website preview with a developer workspace. Adapt the light-background web reference; keep text outside the image.",
+    "image": "",
+    "display_order": 3,
+    "status": "Draft"
+  },
+  {
+    "id": "SW-01",
+    "slug": "software-sales-executive",
+    "title": "Software Sales Executive",
+    "category": "software-development",
+    "function": "Sales",
+    "headline": "Connect business challenges with the right software.",
+    "summary": "Help organisations explore CRM, ERP, HRMS, SaaS and custom software solutions. Translate discovery conversations into useful requirements for demos, scoping and delivery planning.",
+    "responsibilities": [
+      "Understand client workflows, users, existing tools and operational problems before recommending a solution.",
+      "Explain relevant software modules and coordinate demonstrations with the technical team.",
+      "Prepare requirement notes and coordinate proposals, implementation scope and approved commercial discussions.",
+      "Maintain the sales pipeline and follow-ups; hand over agreed requirements and avoid promising unconfirmed features or timelines."
+    ],
+    "skills": [
+      "Consultative sales, structured discovery and clear product presentations.",
+      "Understanding of business processes and basic CRM, ERP, HRMS or SaaS concepts.",
+      "CRM discipline, proposal coordination and collaboration with technical teams."
+    ],
+    "work_samples": "An anonymised software sales example, discovery document or product-demo outline, if available.",
+    "visual_note": "A software demonstration with a simple business dashboard and client discussion; communicate product understanding and trust.",
+    "image": "",
+    "display_order": 4,
+    "status": "Draft"
+  },
+  {
+    "id": "SW-02",
+    "slug": "software-implementation-operations-executive",
+    "title": "Software Implementation & Operations Executive",
+    "category": "software-development",
+    "function": "Operations",
+    "headline": "Help teams adopt software with confidence.",
+    "summary": "Coordinate software onboarding, configuration and operational support. Work with clients and developers to make implementation requirements, testing and user handover easy to follow.",
+    "responsibilities": [
+      "Collect onboarding requirements and authorised data; document user roles, workflows and configuration needs.",
+      "Coordinate setup, data imports and configuration checks with the development team; maintain clear implementation records.",
+      "Organise user acceptance testing, reproduce reported issues and track fixes through resolution.",
+      "Support user training, handover guides and support follow-ups; escalate blockers and maintain client progress updates."
+    ],
+    "skills": [
+      "Process documentation, spreadsheets, data checking and structured problem-solving.",
+      "Ability to explain software workflows clearly to business users.",
+      "Issue tracking, careful access handling and coordination across teams."
+    ],
+    "work_samples": "A sample onboarding checklist, user guide or anonymised issue log, if available.",
+    "visual_note": "An implementation workspace with an onboarding checklist, role permissions and training notes; avoid generic code-only imagery.",
+    "image": "",
+    "display_order": 5,
+    "status": "Draft"
+  },
+  {
+    "id": "SW-03",
+    "slug": "software-developer",
+    "title": "Software Developer",
+    "category": "software-development",
+    "function": "Development",
+    "headline": "Build business software around real workflows.",
+    "summary": "Develop and maintain business applications, dashboards and integrations. Contribute to CRM, ERP, HRMS, SaaS or custom application projects according to the team's agreed technical scope.",
+    "responsibilities": [
+      "Translate functional requirements into maintainable application features, interfaces and data models.",
+      "Build backend services, databases and APIs with appropriate authentication, permissions and validation.",
+      "Test features and integrations, investigate defects and participate in code review and release preparation.",
+      "Document implementation decisions and support deployments, issue resolution and future enhancements."
+    ],
+    "skills": [
+      "Practical programming, database and API development skills in a relevant stack.",
+      "Version control, debugging, testing and awareness of application security.",
+      "Ability to show working software and explain your individual contribution."
+    ],
+    "work_samples": "A repository, application demo or technical case study. Mobile application experience may be highlighted where relevant.",
+    "visual_note": "A developer with a product interface and data-flow elements. Adapt the clean software reference; show software delivery rather than unrelated service claims.",
+    "image": "",
+    "display_order": 6,
+    "status": "Draft"
+  },
+  {
+    "id": "AI-01",
+    "slug": "ai-solutions-sales-executive",
+    "title": "AI Solutions Sales Executive",
+    "category": "ai-automation",
+    "function": "Sales",
+    "headline": "Find useful automation opportunities for businesses.",
+    "summary": "Help clients understand practical AI assistants and automation use cases. Qualify the business need, clarify expected outcomes and coordinate discovery with the implementation team.",
+    "responsibilities": [
+      "Identify repetitive tasks and enquiry, follow-up or support workflows that may benefit from automation.",
+      "Explain AI agents, predefined workflows and human handover in clear business language.",
+      "Coordinate demos and capture tool access, data sources, integration requirements and scope boundaries.",
+      "Maintain proposals and follow-ups; discuss approved scope and avoid unsupported accuracy, savings or autonomous-operation promises."
+    ],
+    "skills": [
+      "Business discovery, client communication and consultative solution selling.",
+      "Practical awareness of AI assistants, automation tools and integration dependencies.",
+      "Clear documentation, CRM use and collaboration with technical teams."
+    ],
+    "work_samples": "A short business automation use case, discovery brief or solution-demo outline, if available.",
+    "visual_note": "A client conversation around a simple before-and-after workflow. Show an assistant as a supporting element, not a fictional partner badge.",
+    "image": "",
+    "display_order": 7,
+    "status": "Draft"
+  },
+  {
+    "id": "AI-02",
+    "slug": "ai-implementation-operations-executive",
+    "title": "AI Implementation & Operations Executive",
+    "category": "ai-automation",
+    "function": "Operations",
+    "headline": "Keep automation useful, monitored and accountable.",
+    "summary": "Coordinate client onboarding and day-to-day operation of AI and automation projects. Track workflow behaviour, document exceptions and help clients use the agreed system effectively.",
+    "responsibilities": [
+      "Map client workflows, collect approved business content and record authorised connections and permissions.",
+      "Coordinate configuration and test cases for enquiry capture, notifications, follow-ups and handovers.",
+      "Monitor execution logs and reported issues; record exceptions and escalate failed or unexpected behaviour.",
+      "Maintain operating guides and client updates; coordinate change requests, training and technical fixes."
+    ],
+    "skills": [
+      "Process mapping, workflow tools, spreadsheets and methodical testing.",
+      "Ability to interpret logs, document issues and explain workflows to clients.",
+      "Careful handling of business data, access permissions and escalation paths."
+    ],
+    "work_samples": "A workflow map, automation checklist or anonymised issue report, if available.",
+    "visual_note": "A workflow monitoring view with connected steps and a clear human handover. Use a restrained blue technology treatment.",
+    "image": "",
+    "display_order": 8,
+    "status": "Draft"
+  },
+  {
+    "id": "AI-03",
+    "slug": "ai-automation-agent-developer",
+    "title": "AI Automation & Agent Developer",
+    "category": "ai-automation",
+    "function": "Development",
+    "headline": "Build AI assistants that work with real business tools.",
+    "summary": "Develop AI assistants, chatbots and connected workflows using approved business information and permissions. Focus on useful outputs, reliable integrations and clear human control.",
+    "responsibilities": [
+      "Build assistants and automation workflows for defined business tasks, with documented triggers and scope.",
+      "Connect APIs, webhooks, CRM systems, email and business data sources using authorised access.",
+      "Configure knowledge retrieval and tool use where needed; test answer quality, permissions, failure cases and human handover.",
+      "Monitor reliability and usage, debug integrations and document deployment, maintenance and operating procedures."
+    ],
+    "skills": [
+      "Practical coding and API integration skills, with relevant automation-platform experience.",
+      "Understanding of language-model applications, prompt design and knowledge retrieval.",
+      "Testing, debugging, access control and evaluation of AI-assisted workflows."
+    ],
+    "work_samples": "An agent or automation demo, repository or workflow explanation, including limitations and your contribution.",
+    "visual_note": "An original assistant-and-workflow composition inspired by the supplied AI references. Keep third-party marks out of the artwork unless specifically approved.",
+    "image": "",
+    "display_order": 9,
+    "status": "Draft"
+  },
+  {
+    "id": "SM-01",
+    "slug": "digital-marketing-sales-executive",
+    "title": "Digital Marketing Sales Executive",
+    "category": "social-media-marketing-branding",
+    "function": "Sales",
+    "headline": "Connect business goals with a clear marketing plan.",
+    "summary": "Help prospective clients explore social media, creative, advertising and visibility services. Understand the business objective and coordinate a suitable, clearly scoped proposal.",
+    "responsibilities": [
+      "Qualify enquiries and understand the client's audience, current presence, content needs and marketing goals.",
+      "Explain social media management, branding, reels, advertising, SEO and lead-generation services as relevant.",
+      "Coordinate proposals that separate service deliverables, campaign work and ad spend; discuss approved commercial terms.",
+      "Track CRM updates and follow-ups; hand over approved briefs without promising guaranteed followers, leads or sales."
+    ],
+    "skills": [
+      "Client discovery, persuasive communication and disciplined follow-up.",
+      "Basic understanding of content, social platforms, paid campaigns and business visibility.",
+      "Proposal preparation, CRM records and coordination with creative teams."
+    ],
+    "work_samples": "An anonymised campaign-sales example or sample client discovery and proposal outline, if available.",
+    "visual_note": "A marketing consultation with a content preview and campaign plan. Emphasise understanding the client rather than displaying unverified growth figures.",
+    "image": "",
+    "display_order": 10,
+    "status": "Draft"
+  },
+  {
+    "id": "SM-02",
+    "slug": "social-media-operations-client-servicing-executive",
+    "title": "Social Media Operations & Client Servicing Executive",
+    "category": "social-media-marketing-branding",
+    "function": "Operations",
+    "headline": "Keep briefs, approvals and publishing in sync.",
+    "summary": "Coordinate daily delivery between clients and the social media team. Keep assets, approvals, schedules and reporting organised so agreed content moves smoothly from brief to publication.",
+    "responsibilities": [
+      "Collect client briefs, brand assets, content inputs and authorised account access through approved processes.",
+      "Maintain production schedules and coordinate creative, copy, video and client-approval tasks.",
+      "Track publishing readiness, pending feedback and revision requests; flag scope changes and schedule risks early.",
+      "Compile reporting inputs and delivery records, communicate progress and escalate client issues to the right owner."
+    ],
+    "skills": [
+      "Organisation, client communication and clear task documentation.",
+      "Content calendars, approval workflows and practical social-media awareness.",
+      "Attention to detail, deadline tracking and coordination across teams."
+    ],
+    "work_samples": "A content tracker, approval checklist or anonymised client-update example, if available.",
+    "visual_note": "A content calendar, review queue and coordinated team workspace. Focus on approvals and delivery, not a generic sales poster.",
+    "image": "",
+    "display_order": 11,
+    "status": "Draft"
+  },
+  {
+    "id": "SM-03",
+    "slug": "social-media-marketing-manager",
+    "title": "Social Media Marketing Manager",
+    "category": "social-media-marketing-branding",
+    "function": "Marketing",
+    "headline": "Shape the strategy. Guide the creative. Review the impact.",
+    "summary": "Lead social media strategy and campaign direction for client brands. Turn business goals into content plans, guide execution and use performance insights to improve the next cycle.",
+    "responsibilities": [
+      "Define audience priorities, content pillars, platform plans and calendars aligned with each client's goals.",
+      "Brief and review creatives, captions and reels; maintain consistent brand voice and publishing quality.",
+      "Coordinate campaign execution and, where assigned, Meta or Google advertising within approved budgets and access.",
+      "Review performance, lead client discussions and coach the team on improvements; separate reported results from assumptions."
+    ],
+    "skills": [
+      "Evidence of content strategy, campaign planning and social account management.",
+      "Analytics interpretation, clear reporting and confident client communication.",
+      "Creative judgement, team coordination and ownership of delivery quality."
+    ],
+    "work_samples": "A portfolio or campaign case study showing your role, approach and measured results, where available.",
+    "visual_note": "A strategist reviewing a content plan and reporting dashboard. Adapt the supplied strategist concept using Sunrise colours and original artwork.",
+    "image": "",
+    "display_order": 12,
+    "status": "Draft"
+  },
+  {
+    "id": "SM-04",
+    "slug": "social-media-marketing-executive",
+    "title": "Social Media Marketing Executive",
+    "category": "social-media-marketing-branding",
+    "function": "Marketing",
+    "headline": "Turn content plans into consistent daily execution.",
+    "summary": "Support content creation, scheduling and daily social-media activity for client brands. Work with the manager and creative team to publish accurate, engaging content and maintain useful reporting.",
+    "responsibilities": [
+      "Research content ideas and draft captions, hooks and platform-appropriate copy from approved briefs.",
+      "Create or adapt basic creatives and reels; coordinate advanced design or editing with the relevant specialist.",
+      "Schedule and publish approved content; handle assigned comments or enquiries and escalate sensitive messages.",
+      "Maintain content calendars and collect performance data for reports; follow brand guidelines and approval processes."
+    ],
+    "skills": [
+      "Clear writing, social-platform knowledge and attention to spelling and detail.",
+      "Practical creative or video-editing tool skills and an eye for readable layouts.",
+      "Scheduling discipline, teamwork and basic performance reporting."
+    ],
+    "work_samples": "Sample posts, captions, reels or social pages, with a note identifying your contribution.",
+    "visual_note": "A content creator with a post layout, reel timeline and publishing calendar. Use the supplied social references as direction, with no recycled promotional text.",
+    "image": "",
+    "display_order": 13,
+    "status": "Draft"
+  }
+]
+""")
+
+
+def upgrade():
+    op.create_table(
+        "career_roles",
+        sa.Column("id", sa.String(12), primary_key=True),
+        sa.Column("slug", sa.String(160), unique=True, nullable=False),
+        sa.Column("status", sa.String(12), nullable=False),
+        sa.Column("content", sa.JSON(), nullable=False),
+        sa.Column("display_order", sa.Integer(), nullable=False),
+    )
+    op.create_table(
+        "career_applications",
+        sa.Column("id", sa.String(40), primary_key=True),
+        sa.Column("submission_hash", sa.String(64), unique=True, nullable=False),
+        sa.Column("payload_hash", sa.String(64), nullable=False),
+        sa.Column("role_id", sa.String(12)),
+        sa.Column("category", sa.String(64), nullable=False),
+        sa.Column("kind", sa.String(20), nullable=False),
+        sa.Column("candidate", sa.JSON(), nullable=False),
+        sa.Column("role_title", sa.String(160), nullable=False),
+        sa.Column("cv_key", sa.String(80)),
+        sa.Column("cv_type", sa.String(100)),
+        sa.Column("status", sa.String(24), nullable=False),
+        sa.Column("notes", sa.Text(), nullable=False),
+        sa.Column("route", sa.String(12), nullable=False),
+        sa.Column("email_status", sa.String(20), nullable=False),
+        sa.Column("email_attempt_at", sa.DateTime(timezone=True)),
+        sa.Column("whatsapp_handoff_at", sa.DateTime(timezone=True)),
+        sa.Column("consent_at", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column("expires_at", sa.DateTime(timezone=True), nullable=False),
+    )
+    for name in ["role_id", "category", "status", "created_at"]:
+        op.create_index("ix_career_applications_" + name, "career_applications", [name])
+    table = sa.table(
+        "career_roles",
+        sa.column("id", sa.String),
+        sa.column("slug", sa.String),
+        sa.column("status", sa.String),
+        sa.column("content", sa.JSON),
+        sa.column("display_order", sa.Integer),
+    )
+    records = []
+    for row in PROFILES:
+        data = dict(row)
+        records.append(
+            {
+                "id": data.pop("id"),
+                "slug": data.pop("slug"),
+                "status": data.pop("status"),
+                "display_order": data.pop("display_order"),
+                "content": data,
+            }
+        )
+    op.bulk_insert(table, records)
+
+
+def downgrade():
+    op.drop_table("career_applications")
+    op.drop_table("career_roles")

@@ -178,7 +178,7 @@ export function CaseStudyCarousel({
                   <div className="mt-8 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-sm text-text-muted">Have a similar challenge?</p>
                     <Link
-                      href="/#contact"
+                      href="/build-your-proposal"
                       onClick={() => setOpenId(null)}
                       className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-sm font-medium text-white transition-colors hover:bg-ink/85"
                     >

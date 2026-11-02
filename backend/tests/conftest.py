@@ -48,7 +48,7 @@ def client(engine):
     app.dependency_overrides.clear()
     with engine.begin() as conn:
         if engine.dialect.name == "postgresql":
-            conn.exec_driver_sql("TRUNCATE contact_submissions, admin_sessions, admin_users RESTART IDENTITY")
+            conn.exec_driver_sql("TRUNCATE career_applications, career_roles, contact_submissions, admin_sessions, admin_users RESTART IDENTITY")
         else:  # SQLite (handy for a quick local run): ids restart once a table is empty
             for table in reversed(Base.metadata.sorted_tables):
                 conn.execute(table.delete())

@@ -1128,6 +1128,12 @@ html[data-bg="living"] .bg-fx {
     scroll-behavior: auto !important;
   }
 
+  .hero-enter {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
   .js [data-reveal] {
     opacity: 1;
     transform: none;

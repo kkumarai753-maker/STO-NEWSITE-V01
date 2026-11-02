@@ -179,17 +179,17 @@ export function FloatingDock() {
                 href={whatsapp}
                 label="Chat with us on WhatsApp"
                 external
-                className="size-12 border-transparent bg-whatsapp text-white hover:brightness-110 sm:size-13"
+                className="size-14 border-2 border-white bg-[#00a900] text-white shadow-[0_6px_20px_rgba(8,160,0,0.28)] hover:brightness-105 sm:size-15"
               >
-                <BrandIcon slug="whatsapp" className="size-5.5" />
+                <BrandIcon slug="whatsapp" className="size-8" />
               </DockLink>
             ) : isDev ? (
               <DockLink
-                href="#contact"
+                href="/contact"
                 label="WhatsApp not configured: set NEXT_PUBLIC_WHATSAPP_NUMBER (dev only)"
                 className="size-12 border-dashed border-whatsapp/60 sm:size-13"
               >
-                <BrandIcon slug="whatsapp" className="size-5.5" />
+                <BrandIcon slug="whatsapp" className="size-8" />
               </DockLink>
             ) : null}
           </div>

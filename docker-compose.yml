@@ -60,8 +60,18 @@ services:
       CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:3000"]}'
       ADMIN_SESSION_HOURS: ${ADMIN_SESSION_HOURS:-12}
       TIMEZONE: ${TIMEZONE:-Asia/Kolkata}
+      CAREERS_ENABLED: ${CAREERS_ENABLED:-false}
+      CAREERS_STORAGE_DIR: /var/lib/sunrise/careers
+      CAREERS_RETENTION_DAYS: ${CAREERS_RETENTION_DAYS:-0}
+      CAREERS_PRIVACY_APPROVED: ${CAREERS_PRIVACY_APPROVED:-false}
+      CAREERS_RETENTION_SCHEDULE_CONFIRMED: ${CAREERS_RETENTION_SCHEDULE_CONFIRMED:-false}
+      CAREERS_EMAIL_ENABLED: ${CAREERS_EMAIL_ENABLED:-false}
+      CAREERS_TEMPLATES_APPROVED: ${CAREERS_TEMPLATES_APPROVED:-false}
+      CAREERS_SENDER: ${CAREERS_SENDER:-}
+      CAREERS_RESEND_API_KEY: ${CAREERS_RESEND_API_KEY:-}
     volumes:
       - api-key:/run/sunrise:ro # used when API_KEY is empty
+      - careers-private:/var/lib/sunrise/careers
     ports:
       # API docs at http://localhost:8000/docs when BACKEND_ENVIRONMENT=development.
       - "127.0.0.1:${BACKEND_HOST_PORT:-8000}:8000"
@@ -107,3 +117,4 @@ services:
 volumes:
   pgdata:
   api-key:
+  careers-private:

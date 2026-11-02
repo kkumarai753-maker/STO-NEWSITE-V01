@@ -30,6 +30,17 @@ class Settings(BaseSettings):
     # IANA time zone that defines "today" and "this month" on the dashboard.
     timezone: str = "Asia/Kolkata"
 
+    # Recruitment stays inactive until private durable storage and reviewed policies exist.
+    careers_enabled: bool = False
+    careers_storage_dir: str = ""
+    careers_retention_days: int = Field(default=0, ge=0, le=3650)
+    careers_privacy_approved: bool = False
+    careers_retention_schedule_confirmed: bool = False
+    careers_email_enabled: bool = False
+    careers_templates_approved: bool = False
+    careers_sender: str = ""
+    careers_resend_api_key: str = ""
+
     @property
     def is_production(self) -> bool:
         return self.environment == "production"

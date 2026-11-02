@@ -42,6 +42,12 @@ def main() -> None:
     create.add_argument("--email", required=True)
     create.add_argument("--name", default="")
     create.set_defaults(func=create_admin)
+    def purge_careers(args):
+        from app.services.careers import purge_expired
+        with SessionLocal() as db:
+            print(f"Deleted {purge_expired(db)} expired recruitment record(s).")
+    purge = commands.add_parser("purge-careers", help="delete expired recruitment records and private resumes")
+    purge.set_defaults(func=purge_careers)
     args = parser.parse_args()
     args.func(args)
 

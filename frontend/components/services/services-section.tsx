@@ -7,8 +7,7 @@ import { AutomationMiniVisual } from "./service-visuals";
  * Capabilities beyond the website (Server Component).
  * An editorial index rather than a card grid: the heading and a small live
  * automation example stay pinned on the left while the list scrolls past on
- * the right. Each row jumps to the contact form and pre-fills the message
- * (data-service-select is read by components/contact/contact-form).
+ * the right. Each row opens its dedicated service category page.
  */
 export function ServicesSection() {
   return (
@@ -43,8 +42,7 @@ export function ServicesSection() {
                 style={{ "--reveal-delay": `${(i % 4) * 60}ms` } as React.CSSProperties}
               >
                 <a
-                  href="#contact"
-                  data-service-select={service.contactValue}
+                  href={service.href}
                   className="group glass-card glass-hover grid grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-1 rounded-[1.25rem] p-5 sm:gap-x-6 sm:p-7"
                 >
                   <span aria-hidden className="icon-tile size-11">

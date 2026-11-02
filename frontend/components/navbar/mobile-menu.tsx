@@ -43,6 +43,7 @@ const groups = [
       ["Terms & Conditions", "/terms"],
       ["Privacy Policy", "/privacy"],
       ["Cookie Policy", "/cookies"],
+      ["Careers", "/careers"],
     ],
   },
 ];

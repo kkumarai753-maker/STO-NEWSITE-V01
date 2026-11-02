@@ -36,6 +36,7 @@ export const mobileNav: NavItem[] = [
   { label: "How We Work", href: "/how-we-work" },
   { label: "FAQs", href: "/faq" },
   { label: "Contact Us", href: "/contact" },
+  { label: "Careers", href: "/careers" },
 ];
 
 export const primaryCta: NavItem = {
@@ -75,6 +76,7 @@ export const footerNav: { title: string; items: NavItem[] }[] = [
       { label: "Terms & Conditions", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Cookie Policy", href: "/cookies" },
+      { label: "Careers", href: "/careers" },
     ],
   },
 ];

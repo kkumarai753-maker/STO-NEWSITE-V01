@@ -31,6 +31,8 @@ COPY --chown=app:app docker-entrypoint.sh ./
 # Tolerate a Windows (CRLF) checkout of the entrypoint script.
 RUN sed -i 's/\r$//' docker-entrypoint.sh && chmod +x docker-entrypoint.sh
 
+RUN mkdir -p /var/lib/sunrise/careers && chown app:app /var/lib/sunrise/careers && chmod 700 /var/lib/sunrise/careers
+
 USER app
 EXPOSE 8000
 

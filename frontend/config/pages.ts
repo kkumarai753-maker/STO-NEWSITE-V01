@@ -229,6 +229,16 @@ const corePages: PageEntry[] = [
 
 export const pages: PageEntry[] = [
   {
+    path: "/careers",
+    title: "Careers",
+    description: "Career information at Sunrise Tech Origin.",
+    label: "Careers",
+    updated: "2026-11-02",
+    summary: "Career information at Sunrise Tech Origin.",
+    group: "company",
+    index: false,
+  },
+  {
     path: "/build-your-proposal",
     title: "Build Your Proposal",
     description: "Select services and share your project requirements.",
