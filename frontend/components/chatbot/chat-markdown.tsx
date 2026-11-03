@@ -55,11 +55,13 @@ export function ChatMarkdown({ text }: { text: string }) {
 }
 
 function inline(text: string) {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+  return text.split(/(\*\*[^*]+\*\*|\/(?:services|build-your-proposal)(?:[/?][a-zA-Z0-9_?=&%/-]*)?)/g).map((part, i) =>
     part.startsWith("**") && part.endsWith("**") ? (
       <strong key={i} className="font-semibold text-text">
         {part.slice(2, -2)}
       </strong>
+    ) : /^\/(?:services|build-your-proposal)(?:[/?][a-zA-Z0-9_?=&%/-]*)?$/.test(part) ? (
+      <a key={i} href={part} className="font-medium text-primary underline">{part.startsWith("/build-your-proposal") ? "Choose these services" : "Explore services"}</a>
     ) : (
       <Fragment key={i}>{part}</Fragment>
     ),

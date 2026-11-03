@@ -7,6 +7,7 @@ export const CHAT_LIMITS = {
 } as const;
 
 export const chatRequestSchema = z.object({
+  category: z.optional(z.string().check(z.maxLength(80))),
   messages: z
     .array(
       z.object({

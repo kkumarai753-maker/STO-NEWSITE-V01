@@ -63,7 +63,7 @@ export default async function CategoryPage({
                   </h3>
                   <Link
                     className="rounded-full bg-primary px-5 py-3 text-sm text-white"
-                    href={`/build-your-proposal?service=${serviceId(c.id, i)}`}
+                    href={`/build-your-proposal?category=${c.id}&service=${serviceId(c.id, i)}`}
                   >
                     Select service<span className="sr-only">: {name}</span>
                   </Link>

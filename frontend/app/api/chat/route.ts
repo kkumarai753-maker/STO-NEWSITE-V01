@@ -1,3 +1,4 @@
+import { serviceCategories } from "@/data/service-categories";
 import Anthropic from "@anthropic-ai/sdk";
 import { buildSystemPrompt, demoReply } from "@/lib/server/chat/knowledge";
 import { clientKeyFromHeaders, createRateLimiter } from "@/lib/server/rate-limit";
@@ -78,10 +79,12 @@ export async function POST(request: Request) {
   const messages = normaliseHistory(parsed.data.messages);
   if (!messages) return jsonError(400, "The last message must come from the user");
 
+  const category = serviceCategories.find((c) => c.id === parsed.data.category);
+  const context = category ? `\nThe visitor is exploring ${category.name}. Prioritise only services in this category unless they explicitly ask to change. Relevant services: ${category.items.join("; ")}. Category page: /services/${category.id}. Service selection: /build-your-proposal?category=${category.id}.` : "";
   const client = getClient();
   const stream = client
-    ? aiStream(client, messages, request.signal)
-    : demoStream(messages[messages.length - 1].content);
+    ? aiStream(client, messages, request.signal, context)
+    : demoStream(messages[messages.length - 1].content, category?.id);
 
   return new Response(stream, {
     headers: {
@@ -100,7 +103,7 @@ function normaliseHistory(messages: ChatMessage[]) {
   return trimmed[trimmed.length - 1].role === "user" ? trimmed : null;
 }
 
-function aiStream(client: Anthropic, messages: ChatMessage[], signal: AbortSignal) {
+function aiStream(client: Anthropic, messages: ChatMessage[], signal: AbortSignal, context: string) {
   return new ReadableStream<Uint8Array>({
     async start(controller) {
       let sentText = false;
@@ -115,7 +118,7 @@ function aiStream(client: Anthropic, messages: ChatMessage[], signal: AbortSigna
             // Conversational route: low effort keeps replies fast and inexpensive.
             output_config: { effort: "low" },
             system: [
-              { type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } },
+              { type: "text", text: SYSTEM_PROMPT + context, cache_control: { type: "ephemeral" } },
             ],
             messages,
           },
@@ -172,8 +175,8 @@ function describeError(error: unknown) {
 }
 
 /** Streams a canned answer in small chunks so the UI behaves like the real thing. */
-function demoStream(question: string) {
-  const reply = demoReply(question);
+function demoStream(question: string, category?: string) {
+  const reply = demoReply(question, category);
   const chunks = reply.match(/\S+\s*/g) ?? [reply];
   return new ReadableStream<Uint8Array>({
     async start(controller) {

@@ -6,19 +6,22 @@
  * focus handling. All AI calls go to /api/chat, no keys ever reach the browser.
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Image from "next/image";
+import { serviceCategories } from "@/data/service-categories";
+import { SERVICES } from "@/data/services-catalog";
+import { VoiceControls } from "./voice-controls";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import { MotionProvider } from "@/components/providers/motion-provider";
 import { ArrowUp, RotateCcw, Sparkles, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { LogoMark } from "@/components/brand/logo";
 import { CHAT_LIMITS, type ChatMessage } from "@/lib/validation/chat";
 import { cn } from "@/lib/utils";
 import { ChatMarkdown } from "./chat-markdown";
 
 type UiMessage = ChatMessage & { id: string; error?: boolean };
 
-const STORAGE_KEY = "chat:v1";
+const STORAGE_KEY = "chat:v2";
 const SUGGESTIONS = [
   "What services do you offer?",
   "Can you automate my business?",
@@ -30,7 +33,7 @@ const SUGGESTIONS = [
 const greeting = (): UiMessage => ({
   id: "greeting",
   role: "assistant",
-  content: `Hi! I'm Jen, the ${siteConfig.name} AI assistant. Ask me about our web development, digital growth, how we work, or tell me about your project!`,
+  content: `Hi! I'm Sunrise Assistant, the ${siteConfig.name} AI assistant. Ask me about our web development, digital growth, how we work, or tell me about your project!`,
 });
 
 let counter = 0;
@@ -112,10 +115,15 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
       abortRef.current = controller;
 
       try {
+        const url = new URL(window.location.href);
+        const service = SERVICES.find((s) => s.id === url.searchParams.get("service"));
+        const candidate = url.pathname.startsWith("/services/") ? url.pathname.split("/")[2] : url.searchParams.get("category") ?? service?.category;
+        const category = serviceCategories.find((c) => c.id === candidate)?.id;
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            category,
             messages: history
               .slice(-CHAT_LIMITS.maxMessages)
               .map(({ role, content: c }) => ({ role, content: c })),
@@ -218,12 +226,12 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
             <div className="theme-deep relative flex items-center gap-3 px-4 py-4">
               <div aria-hidden className="horizon-line bottom-0" />
               <span className="relative grid size-10 place-items-center rounded-full border border-line-strong bg-surface">
-                <LogoMark id="logo-chat" className="size-6" />
+                <Image src="/assistant/sunrise-assistant.webp" alt="" width={40} height={40} className="size-10 object-contain" />
                 <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-surface bg-success" />
               </span>
               <div className="min-w-0 flex-1">
                 <h2 id="chat-title" className="font-sans text-sm font-semibold tracking-normal text-text">
-                  Ask Jen · AI Assistant
+                  Sunrise Assistant
                 </h2>
                 <p className="truncate text-xs text-text-muted">Ask us about your project.</p>
               </div>
@@ -349,6 +357,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
               }}
               className="border-t border-line p-3"
             >
+              <VoiceControls open={open} busy={busy} reply={[...messages].reverse().find((m) => m.role === "assistant" && !m.error)?.content ?? ""} onTranscript={(text) => setInput(text.slice(0, CHAT_LIMITS.maxMessageLength))} />
               <div className="flex items-end gap-2 rounded-2xl border border-line-input bg-surface p-1.5 pl-3.5 transition-[border-color,box-shadow] focus-within:border-focus focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--focus)_22%,transparent)]">
                 <label htmlFor="chat-input" className="sr-only">
                   Message the AI assistant
@@ -378,9 +387,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
                 </button>
               </div>
               <p className="mt-2 px-1 text-center text-[0.6875rem] text-subtle">
-                {demoMode && process.env.NODE_ENV !== "production"
-                  ? "Demo mode: set ANTHROPIC_API_KEY to enable AI answers."
-                  : "AI can make mistakes. For project specifics, contact our team."}
+                {demoMode ? "Site guide: answers from our published services. Contact our team for project specifics." : "AI can make mistakes. For project specifics, contact our team."}
               </p>
             </form>
           </m.div>

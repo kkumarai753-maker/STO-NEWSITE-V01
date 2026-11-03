@@ -25,8 +25,8 @@ export const serviceCategories = [
   {
     id: "software-development",
     name: "Software Development",
-    image: "/services/software-solutions.jpg",
-    imageAlt: "Software Development service illustration",
+    image: "/services/software-development.webp",
+    imageAlt: "Custom software applications, dashboards and connected software modules",
     imageBackground: "#fff8f0",
     number: "02",
     icon: "layers",

@@ -10,10 +10,10 @@
  * The chat window is code-split and only downloaded on first open.
  */
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowUp, Mail, Phone } from "lucide-react"; // add `X` back with the Ask Jen button
+import { ArrowUp, Mail, Phone } from "lucide-react";
 import { emailHref, phoneHref, whatsappHref } from "@/config/site";
-// import { LogoMark } from "@/components/brand/logo"; // used by the hidden Ask Jen button
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +23,7 @@ const isDev = process.env.NODE_ENV !== "production";
 
 export function FloatingDock() {
   const [chatOpen, setChatOpen] = useState(false);
-  // setChatLoaded is only used by the hidden Ask Jen button: restore it with the button.
-  const [chatLoaded /* , setChatLoaded */] = useState(false);
+  const [chatLoaded, setChatLoaded] = useState(false);
   const [showTop, setShowTop] = useState(false);
   const [progress, setProgress] = useState(0);
   /** Mobile only: tuck the dock away while the user scrolls down to read. */
@@ -62,11 +61,7 @@ export function FloatingDock() {
     };
   }, []);
 
-  // Opens the chat; only the hidden Ask Jen button calls it.
-  // const openChat = () => {
-  //   setChatLoaded(true);
-  //   setChatOpen(true);
-  // };
+  const openChat = () => { setChatLoaded(true); setChatOpen(true); };
   const closeChat = () => {
     setChatOpen(false);
     chatButtonRef.current?.focus();
@@ -148,32 +143,10 @@ export function FloatingDock() {
 
           {/* Primary actions: the AI assistant and WhatsApp, side by side */}
           <div className="flex items-center gap-2.5">
-            {/* "Ask Jen" AI assistant button, hidden for now. Uncomment to bring it back.
-            <button
-              ref={chatButtonRef}
-              type="button"
-              onClick={() => (chatOpen ? closeChat() : openChat())}
-              onPointerEnter={() => void import("@/components/chatbot/chat-panel")}
-              onFocus={() => void import("@/components/chatbot/chat-panel")}
-              aria-expanded={chatOpen}
-              aria-haspopup="dialog"
-              aria-label={chatOpen ? "Close Ask Jen chat" : "Ask Jen, our AI assistant"}
-              className="group relative flex h-12 items-center gap-2.5 rounded-full border border-line-strong bg-surface pr-4 pl-1.5 text-sm font-medium text-text [box-shadow:var(--shadow-lg),var(--inset-highlight)] transition-[transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-text/30 active:scale-[0.97] sm:h-13"
-            >
-              <span className="relative grid size-9 place-items-center rounded-full bg-bg sm:size-10">
-                {chatOpen ? (
-                  <X className="size-4.5" aria-hidden />
-                ) : (
-                  <>
-                    <LogoMark className="size-6" />
-                    <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-surface bg-success" />
-                  </>
-                )}
-              </span>
-              <span aria-hidden>{chatOpen ? "Close" : "Ask Jen"}</span>
+            <button ref={chatButtonRef} type="button" onClick={() => chatOpen ? closeChat() : openChat()} aria-expanded={chatOpen} aria-haspopup="dialog" aria-label={chatOpen ? "Close Sunrise Assistant" : "Ask Sunrise Assistant"} className="flex items-center gap-2 rounded-full border border-primary/30 bg-white py-1 pr-4 pl-1 text-sm font-semibold text-[#123967] shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+              <Image src="/assistant/sunrise-assistant.webp" alt="" width={56} height={56} className="size-14 object-contain" />
+              <span>{chatOpen ? "Close" : "Ask Sunrise"}</span>
             </button>
-            */}
-
             {whatsapp ? (
               <DockLink
                 href={whatsapp}

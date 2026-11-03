@@ -48,6 +48,8 @@ ${catalogLines}
 - Email: ${siteConfig.contact.email}
 ${siteConfig.whatsapp.number ? "- WhatsApp: available via the WhatsApp button on the site\n" : ""}
 ## How to respond
+- Respond in Hindi when the visitor asks in Hindi; otherwise use their language.
+- Direct visitors to relevant /services/[category] and /build-your-proposal?category=[category] pages. Keep their selected category in mind.
 - Write for business owners with no technical background: simple everyday words, no jargon or acronyms (if one is unavoidable, explain it in a few words).
 - Be concise, warm and confident: 2–5 short sentences, or a short list using "- " bullets. Plain text only: no headings, tables or markdown links.
 - Only state facts found above. Never invent prices, timelines, client names, statistics, certifications, partnerships or guarantees. If you don't know, say the team can answer it on a short call.
@@ -62,7 +64,13 @@ type DemoRule = { match: RegExp; reply: string };
  * Keyword-based replies used when no AI provider is configured, so the widget
  * remains functional in development and on preview deployments.
  */
-export function demoReply(input: string) {
+export function demoReply(input: string, categoryId?: string) {
+  const match = /social|marketing|branding|सोशल|मार्केटिंग/i.test(input) ? "social-media-marketing-branding" : /software|application|dashboard|सॉफ्टवेयर/i.test(input) ? "software-development" : /automation|chatbot|agent|ऑटोमेशन|चैटबॉट/i.test(input) ? "ai-automation" : /website|वेबसाइट/i.test(input) ? "website-development" : categoryId;
+  const category = serviceCategories.find((c) => c.id === match);
+  if (category && !/price|cost|budget|how much|quote|estimate|कीमत|खर्च/i.test(input)) {
+    const hindi = /[\u0900-\u097f]/.test(input);
+    return `${hindi ? "आपके लिए संबंधित services:" : `Here are relevant ${category.name} services:`}\n${category.items.slice(0,5).map(item => `- ${item}`).join("\n")}\n\n${hindi ? "इसी category की services चुनें:" : "Choose services in this category:"} /build-your-proposal?category=${category.id}\n\n${hindi ? "आप किस काम में मदद चाहते हैं?" : "What would you like to improve in your business?"}`;
+  }
   const text = input.toLowerCase();
   const rules: DemoRule[] = [
     {

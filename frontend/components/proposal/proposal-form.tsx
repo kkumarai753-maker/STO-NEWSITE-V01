@@ -1,6 +1,6 @@
 "use client";
 import { useActionState, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { serviceCategories } from "@/data/service-categories";
 import { SERVICES } from "@/data/services-catalog";
 import { proposalMessage } from "@/lib/validation/proposal";
@@ -13,11 +13,18 @@ export function ProposalForm({
   deliveryAvailable: boolean;
 }) {
   const params = useSearchParams();
+  const router = useRouter();
+  const categoryParam = params.get("category");
+  const serviceParam = SERVICES.find((s) => s.id === params.get("service") || (params.get("services") ?? "").split(",").includes(s.id));
+  const category = serviceCategories.find((c) => c.id === categoryParam)?.id ?? serviceParam?.category ?? "";
+  return <CategoryProposalForm key={params.toString()} deliveryAvailable={deliveryAvailable} category={category} initialServices={[params.get("service") ?? "", ...(params.get("services") ?? "").split(",")]} onCategoryChange={(value) => router.replace(`/build-your-proposal?category=${encodeURIComponent(value)}`, { scroll: false })} />;
+}
+
+function CategoryProposalForm({deliveryAvailable, category, initialServices, onCategoryChange}: {deliveryAvailable:boolean;category:string;initialServices:string[];onCategoryChange:(value:string)=>void}) {
   const [selected, setSelected] = useState<string[]>(() =>
     SERVICES.filter(
       (s) =>
-        s.id === params.get("service") ||
-        (params.get("services") ?? "").split(",").includes(s.id),
+        s.category === category && initialServices.includes(s.id),
     ).map((s) => s.id),
   );
   const [state, action, pending] = useActionState(submitProposal, {
@@ -29,7 +36,6 @@ export function ProposalForm({
   useEffect(() => {
     if (started.current) started.current.value = String(Date.now());
   }, []);
-  const category = params.get("category");
   const field =
     "mt-2 w-full rounded-xl border border-line bg-white p-3 text-text";
   return (
@@ -73,10 +79,17 @@ export function ProposalForm({
       className="space-y-8"
     >
       <p className="text-text-muted">
-        Select any services you need across the four categories. Your selections
-        stay checked as you continue. Scope and pricing are confirmed after
-        review.
+        Choose services within your selected category. Scope and pricing are confirmed after review.
       </p>
+      <label className="block font-semibold">
+        Service category
+        <select value={category} onChange={(event) => onCategoryChange(event.target.value)} className={field}>
+          <option value="">Choose a category</option>
+          {serviceCategories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select>
+        <span className="mt-2 block text-sm font-normal text-text-muted">Changing category starts a new service selection.</span>
+      </label>
+      {!category && <p className="rounded-xl bg-primary-light p-4">Choose a category above to see its services.</p>}
       <div
         className="sticky top-24 z-10 rounded-xl border border-line bg-white p-4 font-semibold"
         aria-live="polite"
@@ -86,7 +99,7 @@ export function ProposalForm({
           Continue to your details
         </a>
       </div>
-      {serviceCategories.map((c) => (
+      {serviceCategories.filter((c) => c.id === category).map((c) => (
         <fieldset
           id={c.id}
           key={c.id}
