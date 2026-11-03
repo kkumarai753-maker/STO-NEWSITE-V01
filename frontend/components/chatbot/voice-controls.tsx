@@ -117,7 +117,7 @@ export function VoiceControls({open,busy,reply,onTranscript,onMoodChange}:{open:
  return <div className="mb-3 rounded-xl border border-primary/20 bg-primary-light/45 p-3">
   <div className="flex items-center gap-3">
    <AssistantMascot mood={busy?"thinking":mood} className="size-20 shrink-0" />
-   <div className="min-w-0 flex-1"><p className="text-sm font-semibold text-[#123967]">Talk to Sunrise</p><p role="status" className="mt-1 text-xs leading-relaxed text-text-muted">{notice||(supported&&canSpeak?"A voice conversation: you speak, I answer aloud.":"Voice unavailable here. Text chat still works; try opening this page directly in Chrome.")}</p></div>
+   <div className="min-w-0 flex-1"><p className="text-sm font-semibold text-[#123967]">Talk to Sun</p><p role="status" className="mt-1 text-xs leading-relaxed text-text-muted">{notice||(supported&&canSpeak?"A voice conversation: you speak, I answer aloud.":"Voice unavailable here. Text chat still works; try opening this page directly in Chrome.")}</p></div>
   </div>
   {!active && permission!=="granted" && <div className="mt-2 rounded-lg border border-primary/20 bg-white p-3 text-xs leading-relaxed">
    <p className="font-semibold">{permission==="denied" ? "Microphone access is blocked" : "Microphone permission"}</p>

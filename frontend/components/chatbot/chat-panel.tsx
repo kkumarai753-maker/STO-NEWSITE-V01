@@ -21,7 +21,7 @@ import { ChatMarkdown } from "./chat-markdown";
 
 type UiMessage = ChatMessage & { id: string; error?: boolean };
 
-const STORAGE_KEY = "chat:v2";
+const STORAGE_KEY = "chat:v3";
 const SUGGESTIONS = [
   "What services do you offer?",
   "Can you automate my business?",
@@ -33,7 +33,7 @@ const SUGGESTIONS = [
 const greeting = (): UiMessage => ({
   id: "greeting",
   role: "assistant",
-  content: `Hi! I'm Sunrise Assistant, the ${siteConfig.name} AI assistant. Ask me about our web development, digital growth, how we work, or tell me about your project!`,
+  content: `Hi! I'm Sun, the ${siteConfig.name} AI assistant. Ask me about our web development, digital growth, how we work, or tell me about your project!`,
 });
 
 let counter = 0;
@@ -232,7 +232,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
               </span>
               <div className="min-w-0 flex-1">
                 <h2 id="chat-title" className="font-sans text-sm font-semibold tracking-normal text-text">
-                  Sunrise Assistant
+                  Sun
                 </h2>
                 <p className="truncate text-xs text-text-muted">Ask us about your project.</p>
               </div>

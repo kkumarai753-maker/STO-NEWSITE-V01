@@ -143,9 +143,9 @@ export function FloatingDock() {
 
           {/* Primary actions: the AI assistant and WhatsApp, side by side */}
           <div className="flex items-center gap-2.5">
-            <button ref={chatButtonRef} type="button" onClick={() => chatOpen ? closeChat() : openChat()} aria-expanded={chatOpen} aria-haspopup="dialog" aria-label={chatOpen ? "Close Sunrise Assistant" : "Ask Sunrise Assistant"} className="flex items-center gap-2 rounded-full border border-primary/30 bg-white py-1 pr-4 pl-1 text-sm font-semibold text-[#123967] shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+            <button ref={chatButtonRef} type="button" onClick={() => chatOpen ? closeChat() : openChat()} aria-expanded={chatOpen} aria-haspopup="dialog" aria-label={chatOpen ? "Close Sun" : "Ask Sun"} className="flex items-center gap-2 rounded-full border border-primary/30 bg-white py-1 pr-4 pl-1 text-sm font-semibold text-[#123967] shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
               <AssistantMascot className="size-16" />
-              <span>{chatOpen ? "Close" : "Ask Sunrise"}</span>
+              <span>{chatOpen ? "Close" : "Ask Sun"}</span>
             </button>
             {whatsapp ? (
               <DockLink
