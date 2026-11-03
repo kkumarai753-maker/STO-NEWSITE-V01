@@ -10,7 +10,7 @@
  * The chat window is code-split and only downloaded on first open.
  */
 import dynamic from "next/dynamic";
-import Image from "next/image";
+import { AssistantMascot } from "@/components/chatbot/assistant-mascot";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowUp, Mail, Phone } from "lucide-react";
 import { emailHref, phoneHref, whatsappHref } from "@/config/site";
@@ -144,7 +144,7 @@ export function FloatingDock() {
           {/* Primary actions: the AI assistant and WhatsApp, side by side */}
           <div className="flex items-center gap-2.5">
             <button ref={chatButtonRef} type="button" onClick={() => chatOpen ? closeChat() : openChat()} aria-expanded={chatOpen} aria-haspopup="dialog" aria-label={chatOpen ? "Close Sunrise Assistant" : "Ask Sunrise Assistant"} className="flex items-center gap-2 rounded-full border border-primary/30 bg-white py-1 pr-4 pl-1 text-sm font-semibold text-[#123967] shadow-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
-              <Image src="/assistant/sunrise-assistant.webp" alt="" width={56} height={56} className="size-14 object-contain" />
+              <AssistantMascot className="size-16" />
               <span>{chatOpen ? "Close" : "Ask Sunrise"}</span>
             </button>
             {whatsapp ? (

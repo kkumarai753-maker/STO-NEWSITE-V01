@@ -6,7 +6,7 @@
  * focus handling. All AI calls go to /api/chat, no keys ever reach the browser.
  */
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
-import Image from "next/image";
+import { AssistantMascot, type AssistantMood } from "./assistant-mascot";
 import { serviceCategories } from "@/data/service-categories";
 import { SERVICES } from "@/data/services-catalog";
 import { VoiceControls } from "./voice-controls";
@@ -57,6 +57,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
   const [input, setInput] = useState("");
   const [status, setStatus] = useState<"idle" | "waiting" | "streaming">("idle");
   const [demoMode, setDemoMode] = useState(false);
+  const [voiceMood, setVoiceMood] = useState<AssistantMood>("idle");
   const abortRef = useRef<AbortController | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -226,7 +227,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
             <div className="theme-deep relative flex items-center gap-3 px-4 py-4">
               <div aria-hidden className="horizon-line bottom-0" />
               <span className="relative grid size-10 place-items-center rounded-full border border-line-strong bg-surface">
-                <Image src="/assistant/sunrise-assistant.webp" alt="" width={40} height={40} className="size-10 object-contain" />
+                <AssistantMascot mood={busy ? "thinking" : voiceMood} className="size-12" />
                 <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-surface bg-success" />
               </span>
               <div className="min-w-0 flex-1">
@@ -357,7 +358,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
               }}
               className="border-t border-line p-3"
             >
-              <VoiceControls open={open} busy={busy} reply={[...messages].reverse().find((m) => m.role === "assistant" && !m.error)?.content ?? ""} onTranscript={(text) => setInput(text.slice(0, CHAT_LIMITS.maxMessageLength))} />
+              <VoiceControls open={open} busy={busy} reply={[...messages].reverse().find((m) => m.role === "assistant")} onMoodChange={setVoiceMood} onTranscript={(text) => { void send(text.slice(0, CHAT_LIMITS.maxMessageLength)); }} />
               <div className="flex items-end gap-2 rounded-2xl border border-line-input bg-surface p-1.5 pl-3.5 transition-[border-color,box-shadow] focus-within:border-focus focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--focus)_22%,transparent)]">
                 <label htmlFor="chat-input" className="sr-only">
                   Message the AI assistant

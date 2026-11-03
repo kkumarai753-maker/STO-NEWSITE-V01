@@ -1279,3 +1279,24 @@ html[data-bg="living"] .bg-fx {
  .sunrise-ai-copy > p { max-width:31rem; }
  .sunrise-ai-controls { gap:.4rem;padding-bottom:1.5rem; }
 }
+
+/* Expressive assistant: separate head, arm, eyes and mouth respond to voice state. */
+.sunrise-mascot { overflow:visible; }
+.mascot-body { animation:mascot-float 3.6s ease-in-out infinite;transform-origin:80px 90px; }
+.mascot-head { transform-origin:80px 75px; }
+.mascot-arm { transform-origin:112px 120px;animation:mascot-wave 5s ease-in-out infinite; }
+.mascot-eyes { transform-box:fill-box;transform-origin:center;animation:mascot-blink 5.5s infinite; }
+.mascot-mouth { display:none; }
+.mascot-listening .mascot-head { animation:mascot-nod 1.2s ease-in-out infinite; }
+.mascot-listening .mascot-core { animation:mascot-pulse .9s ease-in-out infinite; }
+.mascot-thinking .mascot-head { animation:mascot-think 1.8s ease-in-out infinite; }
+.mascot-speaking .mascot-mouth { display:block;animation:mascot-talk .25s ease-in-out infinite alternate;transform-origin:80px 87px; }
+.mascot-speaking .mascot-smile { display:none; }
+@keyframes mascot-float { 50% { transform:translateY(-4px); } }
+@keyframes mascot-wave { 0%,60%,100% { transform:rotate(0); } 65%,75% { transform:rotate(-18deg); } 70%,80% { transform:rotate(5deg); } }
+@keyframes mascot-blink { 0%,43%,47%,100% { transform:scaleY(1); } 45% { transform:scaleY(.1); } }
+@keyframes mascot-nod { 50% { transform:rotate(-6deg); } }
+@keyframes mascot-think { 50% { transform:rotate(7deg); } }
+@keyframes mascot-pulse { 50% { opacity:.25; } }
+@keyframes mascot-talk { to { transform:scaleY(.25); } }
+@media(prefers-reduced-motion:reduce) { .sunrise-mascot * { animation:none!important; } }
