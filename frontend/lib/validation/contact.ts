@@ -1,12 +1,12 @@
 import * as z from "zod/mini";
+import { isContactPhone } from "@/lib/phone";
 
 /**
  * Contact form schema, shared by client-side validation and the server
  * action. Uses `zod/mini` to keep the client bundle small. The server is the
  * source of truth: it always re-validates.
  */
-/** Phone is optional; when given it is exactly this many digits, numbers only. */
-export const PHONE_LENGTH = 10;
+
 
 export const contactSchema = z.object({
   name: z
@@ -28,12 +28,8 @@ export const contactSchema = z.object({
   phone: z
     .string()
     .check(
-      z.maxLength(PHONE_LENGTH, `Phone number can't be more than ${PHONE_LENGTH} digits.`),
-      z.regex(/^\d*$/, "Use numbers only: no spaces, + or other characters."),
-      z.regex(
-        new RegExp(`^$|^\\d{${PHONE_LENGTH}}$`),
-        `Enter a ${PHONE_LENGTH}-digit phone number.`,
-      ),
+      z.maxLength(16, "Please enter a valid mobile number."),
+      z.refine(isContactPhone, "Please enter a valid mobile number for your country."),
     ),
   message: z
     .string()

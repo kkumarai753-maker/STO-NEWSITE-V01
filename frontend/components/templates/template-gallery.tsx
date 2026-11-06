@@ -46,7 +46,7 @@ export function TemplateGallery({ standalone = false }: { standalone?: boolean }
           <div>
             <p className="preview-kicker">Explore it. Imagine yours.</p>
             <h2 id="templates-title" className="mt-3 text-heading-2 text-text">
-              Trending website demos on <span className="text-[#bc5714]">Sunrise.</span>
+              Trending Website Demos on <span className="text-[#bc5714]">Sunrise Tech Origin</span>
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">Find inspiration for your industry, then open a working demo to explore.</p>
           </div>

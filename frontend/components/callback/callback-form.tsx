@@ -1,4 +1,6 @@
 "use client";
+import { InternationalPhoneInput } from "@/components/forms/international-phone-input";
+import { normalizePhone } from "@/lib/phone";
 import { useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Check, LoaderCircle, Mail } from "lucide-react";
@@ -14,6 +16,7 @@ export function CallbackForm({
   deliveryAvailable: boolean;
 }) {
   const [values, setValues] = useState(empty);
+  const [phoneError, setPhoneError] = useState<string>();
   const [draft, setDraft] = useState(false);
   const [state, action, pending] = useActionState(submitCallback, initial);
   const time = useRef<HTMLInputElement>(null);
@@ -82,6 +85,12 @@ export function CallbackForm({
     <form
       action={action}
       onSubmit={(e) => {
+        if (!normalizePhone(values.phone)) {
+          e.preventDefault();
+          setPhoneError("Please enter a valid mobile number for your country.");
+          return;
+        }
+        setPhoneError(undefined);
         if (!deliveryAvailable) {
           e.preventDefault();
           setDraft(true);
@@ -126,23 +135,7 @@ export function CallbackForm({
           />
         </label>
       </div>
-      <label className="block text-xs font-medium text-text">
-        Contact number *
-        <input
-          name="callbackPhone"
-          type="tel"
-          autoComplete="tel"
-          inputMode="tel"
-          required
-          minLength={7}
-          maxLength={25}
-          pattern="[+]?[0-9]{7,15}"
-          placeholder="Country code + number, no spaces"
-          value={values.phone}
-          onChange={(e) => update("phone", e.target.value)}
-          className={field}
-        />
-      </label>
+      <InternationalPhoneInput name="callbackPhone" value={values.phone} onChange={(value) => { update("phone", value); setPhoneError(undefined); }} required error={phoneError} />
       <label className="block text-xs font-medium text-text">
         What do you need help with? *
         <select
@@ -192,8 +185,7 @@ export function CallbackForm({
       </p>
       {!deliveryAvailable ? (
         <p className="text-xs leading-relaxed text-text-muted">
-          In this preview, you can send the completed request directly through
-          email or WhatsApp.
+          Choose email or WhatsApp in the next step, then send your request there.
         </p>
       ) : null}
       <button
@@ -205,10 +197,8 @@ export function CallbackForm({
             <LoaderCircle className="size-4 animate-spin" />
             Sending request…
           </>
-        ) : deliveryAvailable ? (
-          "Request a Callback"
         ) : (
-          "Prepare Callback Request"
+          "Request a Callback"
         )}
       </button>
     </form>

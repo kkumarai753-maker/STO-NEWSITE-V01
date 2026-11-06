@@ -1,4 +1,5 @@
 "use client";
+import { InternationalPhoneInput } from "@/components/forms/international-phone-input";
 
 import { serviceCategories } from "@/data/service-categories";
 
@@ -37,7 +38,6 @@ import {
 import { submitContact, type ContactFormState } from "@/app/actions/contact";
 import {
   HONEYPOT_FIELD,
-  PHONE_LENGTH,
   STARTED_AT_FIELD,
   contactFields,
   contactSchema,
@@ -449,39 +449,9 @@ export function ContactFormClient({
               />
             </LineField>
 
-            <LineField
-              id={id("phone")}
-              label="Phone / WhatsApp"
-              hint={`Optional · ${PHONE_LENGTH} digits`}
-              error={errors.phone}
-              className="sm:col-span-2"
-            >
-              <input
-                id={id("phone")}
-                name="phone"
-                type="tel"
-                inputMode="numeric"
-                autoComplete="tel-national"
-                pattern="[0-9]*"
-                maxLength={PHONE_LENGTH}
-                placeholder=" "
-                value={values.phone}
-                onChange={(e) =>
-                  update(
-                    "phone",
-                    e.target.value.replace(/\D/g, "").slice(0, PHONE_LENGTH),
-                  )
-                }
-                onBlur={() => blur("phone")}
-                {...a11y(
-                  id("phone"),
-                  errors.phone,
-                  false,
-                  `${id("phone")}-hint`,
-                )}
-                className="peer field-line numeric"
-              />
-            </LineField>
+            <div className="sm:col-span-2">
+              <InternationalPhoneInput id={id("phone")} name="phone" value={values.phone} onChange={(value) => update("phone", value)} onBlur={() => blur("phone")} error={errors.phone} />
+            </div>
           </div>
         </Chapter>
 
@@ -581,7 +551,7 @@ export function ContactFormClient({
             </>
           ) : (
             <>
-              {deliveryAvailable ? "Send My Enquiry" : "Prepare My Message"}
+              Send Enquiry
               <ButtonArrow />
             </>
           )}

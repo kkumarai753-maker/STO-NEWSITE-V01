@@ -49,7 +49,7 @@ export const siteConfig = {
   contact: {
     // Public email and social accounts confirmed by the owner.
     email:
-      process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "info@sunrisetechorigin.com",
+      process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "support@sunrisetechorigin.in",
     phone: phoneNumber,
     location: "Chitnis Nagar, Nagpur, Maharashtra, India",
     hours: "Mon–Sat · 9:00–19:00 IST",
@@ -102,7 +102,7 @@ export const siteConfig = {
     {
       label: "Email",
       icon: "email",
-      href: "mailto:info@sunrisetechorigin.com",
+      href: "mailto:support@sunrisetechorigin.in",
     },
   ],
 

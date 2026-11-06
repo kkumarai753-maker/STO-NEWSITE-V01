@@ -8,9 +8,9 @@ from pydantic import AfterValidator, BaseModel, ConfigDict, Field, field_validat
 from app.models.contact import ContactStatus
 
 EMAIL_PATTERN = r"^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
-# Optional; when given, exactly 10 digits (ASCII 0-9 only — no +, spaces or decimals).
-PHONE_LENGTH = 10
-PHONE_PATTERN = rf"^$|^[0-9]{{{PHONE_LENGTH}}}$"
+# Optional canonical international number; retain legacy ten-digit clients.
+PHONE_LENGTH = 16
+PHONE_PATTERN = r"^$|^[0-9]{10}$|^\+[1-9][0-9]{6,14}$"
 
 # Timestamps are stored in UTC; SQLite hands them back without a zone.
 UtcDatetime = Annotated[

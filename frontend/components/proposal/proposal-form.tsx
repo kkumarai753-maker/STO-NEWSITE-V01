@@ -1,4 +1,5 @@
 "use client";
+import { InternationalPhoneInput } from "@/components/forms/international-phone-input";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { serviceCategories } from "@/data/service-categories";
@@ -31,6 +32,7 @@ function CategoryProposalForm({deliveryAvailable, category, initialServices, onC
     status: "idle",
   });
   const started = useRef<HTMLInputElement>(null);
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [draft, setDraft] = useState("");
   useEffect(() => {
@@ -59,7 +61,7 @@ function CategoryProposalForm({deliveryAvailable, category, initialServices, onC
           if (!result.success) {
             event.preventDefault();
             setError(
-              "Please check your name, email and optional 10-digit phone number.",
+              "Please check your name, email and mobile number.",
             );
             return;
           }
@@ -161,17 +163,7 @@ function CategoryProposalForm({deliveryAvailable, category, initialServices, onC
             className={field}
           />
         </label>
-        <label className="block">
-          Phone (optional, 10 digits)
-          <input
-            name="phone"
-            type="tel"
-            autoComplete="tel-national"
-            pattern="[0-9]{10}"
-            maxLength={10}
-            className={field}
-          />
-        </label>
+        <InternationalPhoneInput name="phone" value={phone} onChange={setPhone} />
         <label className="block">
           Project brief (optional)
           <textarea
@@ -202,13 +194,11 @@ function CategoryProposalForm({deliveryAvailable, category, initialServices, onC
         >
           {pending
             ? "Sending…"
-            : deliveryAvailable
-              ? "Send proposal request"
-              : "Prepare proposal request"}
+            : "Send Enquiry"}
         </button>
         {!deliveryAvailable && (
           <p className="text-sm text-text-muted">
-            Prepare your request, then send it using email or WhatsApp.
+            Choose email or WhatsApp in the next step, then send your request there.
           </p>
         )}
       </fieldset>
@@ -221,7 +211,7 @@ function CategoryProposalForm({deliveryAvailable, category, initialServices, onC
             Your request is ready to send
           </h2>
           <p className="mt-2">
-            Choose email or WhatsApp to send your request to our team.
+            Nothing has been sent yet. Choose email or WhatsApp, then send your request in that app.
           </p>
           <pre className="mt-4 whitespace-pre-wrap font-sans text-sm">
             {draft}

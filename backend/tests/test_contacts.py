@@ -59,8 +59,17 @@ def test_update_status(client):
     assert client.get("/api/v1/contacts/999").status_code == 404
 
 
-def test_phone_must_be_ten_digits_only(client):
-    for bad in ["98765", "98765432101", "+919876543210", "98765.43210", "98765 43210", "987654321a"]:
+def test_invalid_phone_formats_are_rejected(client):
+    for bad in ["98765", "98765432101", "+019876543210", "+1234567890123456", "98765.43210", "98765 43210", "987654321a"]:
         res = client.post("/api/v1/contacts", json={**VALID, "phone": bad})
         assert res.status_code == 422, bad
         assert [err["loc"][-1] for err in res.json()["detail"]] == ["phone"], bad
+
+
+def test_international_numbers_are_stored_without_truncation(client):
+    for phone in ["+919876543210", "+447700900123", "+12025550123", "+2348031234567"]:
+        res = client.post("/api/v1/contacts", json={**VALID, "phone": phone})
+        assert res.status_code == 201, res.text
+        assert res.json()["phone"] == phone
+    listed = client.get("/api/v1/contacts").json()
+    assert {row["phone"] for row in listed["items"]} == {"+919876543210", "+447700900123", "+12025550123", "+2348031234567"}
